@@ -5,6 +5,7 @@
  */
 package ec.com.justec.facade;
 
+import ec.com.justec.enumeradores.EstadoEnum;
 import ec.com.justec.facade.local.SeccionFacadeLocal;
 import ec.com.justec.modelo.Seccion;
 import java.util.List;
@@ -34,7 +35,8 @@ public class SeccionFacade extends AbstractFacade<Seccion> implements SeccionFac
 
     @Override
     public List<Seccion> obtenerSeccionesActivas() {
-        Query q = em.createQuery("Select s from Seccion s where s.estadoSec = 'A'");
+        Query q = em.createQuery("Select s from Seccion s where s.estadoSec = :estado");
+        q.setParameter("estado", EstadoEnum.ACTIVO.getValor());
         return q.getResultList();
     }
 
