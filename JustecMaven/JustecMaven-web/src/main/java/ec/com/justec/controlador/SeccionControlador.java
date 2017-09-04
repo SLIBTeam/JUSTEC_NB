@@ -19,7 +19,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "seccionControlador")
 @ViewScoped
-public class SeccionControlador implements Serializable{
+public class SeccionControlador extends BaseControlador implements Serializable{
 
     @EJB
     private SeccionServiceLocal seccionService;
