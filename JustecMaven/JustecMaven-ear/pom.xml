@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
     <artifactId>JustecMaven</artifactId>
-    <groupId>ec.gob.educacion</groupId>
+    <groupId>ec.com.justec</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-    <groupId>ec.gob.educacion</groupId>
+    <groupId>ec.com.justec</groupId>
     <artifactId>JustecMaven-ear</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>ear</packaging>
@@ -42,13 +42,13 @@
     </build>
     <dependencies>
         <dependency>
-            <groupId>ec.gob.educacion</groupId>
+            <groupId>ec.com.justec</groupId>
             <artifactId>JustecMaven-ejb</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>ejb</type>
         </dependency>
         <dependency>
-            <groupId>ec.gob.educacion</groupId>
+            <groupId>ec.com.justec</groupId>
             <artifactId>JustecMaven-web</artifactId>
             <version>1.0-SNAPSHOT</version>
             <type>war</type>
