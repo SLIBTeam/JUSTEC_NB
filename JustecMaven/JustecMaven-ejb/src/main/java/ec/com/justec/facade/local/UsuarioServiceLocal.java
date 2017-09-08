@@ -6,7 +6,6 @@
 package ec.com.justec.facade.local;
 
 import ec.com.justec.modelo.Usuario;
-import java.util.List;
 import javax.ejb.Local;
 
 /**
@@ -14,24 +13,10 @@ import javax.ejb.Local;
  * @author luisp.araujo
  */
 @Local
-public interface UsuarioFacadeLocal {
-
-    void create(Usuario usuario);
-
-    void edit(Usuario usuario);
-
-    void remove(Usuario usuario);
-
-    Usuario find(Object id);
-
-    List<Usuario> findAll();
-
-    List<Usuario> findRange(int[] range);
-
-    int count();
+public interface UsuarioServiceLocal {
 
     /**
-     * Metodo que obtiene usuario activo por nombre
+     * Metodo que obtiene un usuario activo por nombre
      * @param nombre
      * @return 
      */

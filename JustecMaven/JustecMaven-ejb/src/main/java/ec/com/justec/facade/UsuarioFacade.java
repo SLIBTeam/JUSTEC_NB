@@ -5,11 +5,13 @@
  */
 package ec.com.justec.facade;
 
+import ec.com.justec.enumeradores.EstadoEnum;
 import ec.com.justec.facade.local.UsuarioFacadeLocal;
 import ec.com.justec.modelo.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -29,5 +31,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
     public UsuarioFacade() {
         super(Usuario.class);
     }
-    
+
+    @Override
+    public Usuario obtenerPorNombre(String nombre) {
+        Query q = em.createQuery("Select u from Usuario u where u.nombreUs = :nombre and u.estadoUs = :estado");
+        q.setParameter("nombre", nombre);
+        q.setParameter("estado", EstadoEnum.ACTIVO.getValor());
+        if (q.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return (Usuario) q.getResultList().get(0);
+        }
+    }
+
 }
