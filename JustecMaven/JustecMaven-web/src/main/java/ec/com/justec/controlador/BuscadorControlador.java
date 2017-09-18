@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -34,6 +35,10 @@ import org.apache.pdfbox.util.PDFTextStripper;
 public class BuscadorControlador extends BaseControlador implements Serializable {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5135252173022127639L;
+	/**
      * Creates a new instance of BuscadorControlador
      */
     private List<Seccion> listaSecciones = new ArrayList<Seccion>();
@@ -48,13 +53,19 @@ public class BuscadorControlador extends BaseControlador implements Serializable
     private ResultadoBusquedaServiceLocal resultadoBusquedaService;
     @EJB
     private UsuarioServiceLocal usuarioService;
+    
+    @Inject
+    private SesionControlador sesionControlador;
+    
 
-    public BuscadorControlador() {
-    }
 
     @PostConstruct
     private void init() {
-        listaSecciones = seccionService.obtenerSeccionesActivas();
+    	if(sesionControlador.isLogueoCorrecto()) {
+    		listaSecciones = seccionService.obtenerSeccionesActivas();
+    	}else {
+    		redireccionarPagina("/faces/paginas/principal.xhtml");
+		}
     }
 
     public void buscar() {

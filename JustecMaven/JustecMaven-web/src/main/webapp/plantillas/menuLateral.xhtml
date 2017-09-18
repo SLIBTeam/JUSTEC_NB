@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<body>
+	<ui:composition>
+		<style>
+.ui-widget-content a {
+	color: #A9A9A9;
+}
+
+.ui-menu {
+	width: 107% !important;
+}
+
+.ui-menu .ui-menu-parent .ui-menu-child {
+	background: #404a4e !important;
+}
+</style>
+		<h:form>
+			<div class="verticalmenu">
+			<p:menubar model="#{menuBean.menuModelHorizontal}" styleClass="button-style"/>
+			</div>
+
+			<div class="horizontalmenu">
+			<p:menu model="#{menuBean.menuModelVertical}" styleClass="button-style" toggleable="true" />
+			</div>
+
+		</h:form>
+	</ui:composition>
+</body>
+</html>

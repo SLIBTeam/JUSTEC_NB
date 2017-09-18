@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title><ui:insert name="titulo">
+			<h:outputText value="T&#205;tulo de P&#225;gina" />
+		</ui:insert></title>
+
+	<meta charset="utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<title>JUSTEC-NB</title>
+
+	<link rel="icon" type="image/png"
+		href="#{request.contextPath}/faces/paginas/principal.xhtml" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+	<!-- START: Styles -->
+
+	<!-- Google Fonts -->
+	<link
+		href="https://fonts.googleapis.com/css?family=Playfair+Display:400,400i,700,700i%7cWork+Sans:400,500,700"
+		rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet"
+		href="#{request.contextPath}/assets/css/combined.css" />
+
+	<!-- END: Styles -->
+
+
+	<!-- START: estilos por defecto aplicacion -->
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/estilo.css" />
+	<script type="text/javascript" src="#{request.contextPath}/js/utils.js" />
+	<!-- bootstrap -->
+	<link rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+		integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
+		crossorigin="anonymous" />
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+		integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
+		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
+		crossorigin="anonymous"></script>
+	<!-- END: estilos por defecto aplicacion -->
+
+</h:head>
+
+<body style="background-color: #ebebeb">
+
+	<ui:insert name="menu">
+		<ui:include src="/plantillas/menuInterno.xhtml" />
+	</ui:insert>
+
+
+	<div class="nk-main">
+
+		<!-- PANEL DE ESTADO  -->
+		<p:ajaxStatus onstart="PF('statPane').show();"
+			oncomplete="PF('statPane').hide()" />
+		<p:dialog widgetVar="statPane" modal="true" resizable="true">
+			<h:graphicImage value="/css/images/ajax-loader.gif" alt="ai" />
+                            Por favor espere...
+                        </p:dialog>
+		<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
+			closable="true" />
+		<!-- FIN PANEL DE ESTADO  -->
+
+		<!-- CONTENEDOR -->
+		<div class="row vertical-gap">
+			<div class="col-lg-2"
+				style="padding-left: 1%; background: #404a4e !important;">
+				<ui:insert name="menu">
+					<ui:include src="/plantillas/menuLateral.xhtml" />
+				</ui:insert>
+			</div>
+			<div class="col-lg-10">
+				<div class="container">
+					<ui:insert name="contenido">
+						<h:outputText value="Contenido de la p&#255;gina" />
+					</ui:insert>
+				</div>
+			</div>
+		</div>
+		<!-- FIN CONTENEDOR -->
+
+		<ui:insert name="pie">
+			<ui:include src="/plantillas/pieInterno.xhtml" />
+		</ui:insert>
+
+	</div>
+
+	<!-- START: Scripts -->
+
+	<script src="#{request.contextPath}/assets/js/combined.js"></script>
+
+	<!-- END: Scripts -->
+
+</body>
+
+</html>

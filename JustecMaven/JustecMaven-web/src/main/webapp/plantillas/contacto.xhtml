@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+        <ui:composition>
+            <h:form >
+
+               <!-- START: Contact Info -->
+            <div class="container" id="contact">
+                <div class="nk-gap-5"></div>
+                <div class="row vertical-gap">
+                    <div class="col-lg-5">
+                        <!-- START: Info -->
+                        <h2 class="display-4">Contáctanos:</h2>
+                        <div class="nk-gap mnt-3"></div>
+                            
+                        <ul class="nk-contact-info">
+                            <li>
+                                <strong>Dirección:</strong> 10111 Santa Monica Boulevard, LA</li>
+                            <li>
+                                <strong>Teléfonos:</strong> +44 987 065 908</li>
+                            <li>
+                                <strong>Correo electrónico:</strong> info@Example.com</li>
+                        </ul>
+                        <!-- END: Info -->
+                    </div>
+                    <div class="col-lg-7">
+                        <!-- START: Form -->
+                        <form action="#" class="nk-form nk-form-ajax">
+                            <div class="row vertical-gap">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control required" name="name" placeholder="Tu nombre"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control required" name="email" placeholder="Tu correo electrónico"/>
+                                </div>
+                            </div>
+                                
+                            <div class="nk-gap-1"></div>
+                            <input type="text" class="form-control required" name="title" placeholder="Tu asunto"/>
+                                
+                            <div class="nk-gap-1"></div>
+                            <textarea class="form-control required" name="message" rows="8" placeholder="Tu comentario" aria-required="true"></textarea>
+                            <div class="nk-gap-1"></div>
+                            <div class="nk-form-response-success"></div>
+                            <div class="nk-form-response-error"></div>
+                            <button class="nk-btn">Enviar mensaje</button>
+                        </form>
+                        <!-- END: Form -->
+                    </div>
+                </div>
+                <div class="nk-gap-5"></div>
+            </div>
+            <!-- END: Contact Info -->
+            </h:form>
+        </ui:composition>
+    </body>
+</html>
