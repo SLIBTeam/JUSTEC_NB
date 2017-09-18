@@ -1,89 +1,122 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                template="/plantillas/contenedor.xhtml">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/contenedor.xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-    <ui:define name="titulo">
+	<ui:define name="titulo">
         Buscador
-    </ui:define>	
-    <ui:define name="contenido">
-
-        
-        <h:form >
-        
-            <div id="contenedor">
-
-                
-
-                <div id="slices">Texto para #slices
-                </div>
-                 <div id="menu">Texto para #menu
-                </div>
-
-                <div id="slices">Texto para #slices
-                </div>
-                 <div id="menu">Texto para #menu
-                </div>
-
-                <div id="slices">Texto para #slices
-                </div>
-                 <div id="menu">Texto para #menu
-                </div>
-
-                <div id="slices">Texto para #slices
-                </div>
-
-                <div id="cuerpo">
-                    <h:panelGrid columns="2">
-                        <p:inputText value="#{buscadorControlador.palabraBuscada}" alt="PALABRA A BUSCAR"/>
-                        <p:commandButton value="Buscar" action="#{buscadorControlador.buscar()}" update="panelResultadosId"/>
-                    </h:panelGrid>
-                    <p:panel id="panelResultadosId">
-                        <p:dataTable var="documento" value="#{buscadorControlador.documentosEncontrados}" rendered="#{buscadorControlador.documentosEncontrados.size() > 0}"
-                                     reflow="true" rows="5" paginator="true" emptyMessage="No existen resutlados">
-                            <!--                            <p:column>
-                                                            <p:commandButton icon="fa-file-pdf-o"/>
-                                                        </p:column>-->
-
-                            <p:column headerText="Titulo">
-                                <h:outputText value="#{documento.tituloDoc}" />
-                            </p:column>
-
-                            <p:column headerText="Materia">
-                                <h:outputText value="#{documento.codigoMat.nombreMat}" />
-                            </p:column>
-
-                            <p:column headerText="Tipo Norma">
-                                <h:outputText value="#{documento.codigoTn.nombreTn}" />
-                            </p:column>
-
-                            <p:column headerText="No.">
-                                <h:outputText value="#{documento.numeroDoc}" />
-                            </p:column>
-
-                            <p:column headerText="Tipo Pub.">
-                                <h:outputText value="#{documento.codigoTp.nombreTp}" />
-                            </p:column>
-
-                            <p:column headerText="Fecha Firma">
-                                <h:outputText value="#{documento.fechaFirmaDoc}" />
-                            </p:column>
-
-                            <p:column headerText="Fecha Pub.">
-                                <h:outputText value="#{documento.fechaPublicacionDoc}" />
-                            </p:column>
-                        </p:dataTable>
-                    </p:panel>
-                </div>
-
-                <div id="footer">Texto para #footer
-                </div>
-            </div>
-
-        </h:form>
-
     </ui:define>
+	<ui:define name="contenido">
+		<h:form id="formPrincipal">
+		 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+			<h:panelGrid columns="2">
+				<p:inputText value="#{buscadorControlador.palabraBuscada}"
+					alt="PALABRA A BUSCAR" />
+				<p:commandButton value="Buscar" onclick="PF('statusDialog').show()"
+					action="#{buscadorControlador.buscar()}" update="panelResultadosId" />
+			</h:panelGrid>
+			<p:panel id="panelResultadosId">
+				<p:commandButton value="Regresar" action="#{buscadorControlador.regresar()}" update=":formPrincipal:panelResultadosId" 
+				rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}"/>
+				<p:carousel value="#{buscadorControlador.paisesEncontrados}"
+					headerText="Resultado" var="pais" itemStyle="text-align:center"
+					responsive="true" rendered="#{buscadorControlador.mostrarPais}">
+					<center>
+						<p:panelGrid columns="2" style="width:100%;margin:10px 0px"
+							columnClasses="label,value" layout="grid"
+							styleClass="ui-panelgrid-blank">
+							<f:facet name="header">
+								<h:commandLink
+									action="#{buscadorControlador.obtenerSecciones(pais)}"
+									value="#{pais.nombrePais}"
+									update=":formPrincipal:panelResultadosId" />
+							</f:facet>
+
+							<h:outputText value="Resultados:" />
+							<h:outputText
+								value="#{buscadorControlador.resultadosPaisMap.get(pais)}" />
+						</p:panelGrid>
+					</center>
+
+					<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.paisesEncontrados.size()} paises.
+                    </f:facet>
+				</p:carousel>
+
+
+				<p:carousel value="#{buscadorControlador.seccionesEncontradas}"
+					headerText="Resultado" var="seccion" itemStyle="text-align:center"
+					responsive="true"
+					rendered="#{buscadorControlador.mostrarSecciones}">
+					<center>
+						<p:panelGrid columns="2" style="width:100%;margin:10px 0px"
+							columnClasses="label,value" layout="grid"
+							styleClass="ui-panelgrid-blank">
+							<f:facet name="header">
+								<h:commandLink
+									action="#{buscadorControlador.obtenerDocumentos(seccion)}"
+									value="#{seccion.nombreSec}"
+									update=":formPrincipal:panelResultadosId" />
+							</f:facet>
+
+							<h:outputText value="Resultados:" />
+							<h:outputText
+								value="#{buscadorControlador.resultadoSeccionesMap.get(seccion)}" />
+						</p:panelGrid>
+					</center>
+
+					<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.seccionesEncontradas.size()} secciones.
+                    </f:facet>
+				</p:carousel>
+
+				<p:dataTable var="documento"
+					value="#{buscadorControlador.documentosEncontrados}"
+					rendered="#{buscadorControlador.mostrarDocumentos}" reflow="true"
+					rows="5" paginator="true" emptyMessage="No existen resutlados">
+					<p:column>
+						<h:commandLink action="#{buscadorControlador.descargarArchivo(documento)}">
+							<center><h:graphicImage style="width:60%;" value="../css/images/pdf.png" alt="Descargar" title="Descargar Documento" /></center>
+						</h:commandLink>
+					</p:column>
+
+					<p:column headerText="Titulo">
+						<h:outputText value="#{documento.tituloDoc}" />
+					</p:column>
+
+					<p:column headerText="Materia">
+						<h:outputText value="#{documento.codigoMat.nombreMat}" />
+					</p:column>
+
+					<p:column headerText="Tipo Norma">
+						<h:outputText value="#{documento.codigoTn.nombreTn}" />
+					</p:column>
+
+					<p:column headerText="No.">
+						<h:outputText value="#{documento.numeroDoc}" />
+					</p:column>
+
+					<p:column headerText="Tipo Pub.">
+						<h:outputText value="#{documento.codigoTp.nombreTp}" />
+					</p:column>
+
+					<p:column headerText="Fecha Firma">
+						<h:outputText value="#{documento.fechaFirmaDoc}" />
+					</p:column>
+
+					<p:column headerText="Fecha Pub.">
+						<h:outputText value="#{documento.fechaPublicacionDoc}" />
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+				closable="false" resizable="false" showHeader="false">
+<!-- 				<h:graphicImage value="../css/images/ajax-loader.gif" border="0" width="100%"/> -->
+			</p:dialog>
+		</h:form>
+	</ui:define>
 </ui:composition>
 
 

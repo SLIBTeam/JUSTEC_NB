@@ -101,6 +101,9 @@ public class Documento implements Serializable {
     private TipoPublicacion codigoTp;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoDoc", fetch = FetchType.LAZY)
     private List<ResultadoBusqueda> resultadoBusquedaList;
+    @JoinColumn(name = "CODIGO_PAIS", referencedColumnName = "CODIGO_PAIS")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Pais codigoPais;
 
     public Documento() {
     }
@@ -225,6 +228,16 @@ public class Documento implements Serializable {
         this.resultadoBusquedaList = resultadoBusquedaList;
     }
 
+    public Pais getCodigoPais() {
+        return codigoPais;
+    }
+
+    public void setCodigoPais(Pais codigoPais) {
+        this.codigoPais = codigoPais;
+    }
+
+    
+    
     @Override
     public int hashCode() {
         int hash = 0;

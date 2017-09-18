@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
@@ -16,6 +17,8 @@ import org.primefaces.model.menu.MenuModel;
 
 import ec.com.justec.dto.ItemMenuDTO;
 import ec.com.justec.dto.SubMenuDTO;
+import ec.com.justec.modelo.Seccion;
+import ec.com.justec.servicios.local.SeccionServiceLocal;
 
 @Named
 @RequestScoped
@@ -27,6 +30,8 @@ public class MenuBean implements Serializable{
 	private static final long serialVersionUID = -3170588724362450437L;
 	private MenuModel menuModelVertical;
 	private MenuModel menuModelHorizontal;
+	@EJB
+	private SeccionServiceLocal seccionService;
     
     @PostConstruct
     public void init(){
@@ -99,12 +104,12 @@ public class MenuBean implements Serializable{
     	menu.add(submenu);
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
-    	item = new ItemMenuDTO("Sección 1", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-tag");
-    	items.add(item);
-    	item = new ItemMenuDTO("Sección 2", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-tag");
-    	items.add(item);
-    	item = new ItemMenuDTO("Sección 3", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-tag");
-    	items.add(item);
+    	List<Seccion> secciones = seccionService.obtenerSeccionesActivas();
+    	for(Seccion s : secciones)
+    	{
+    		item = new ItemMenuDTO(s.getNombreSec(), pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-tag");
+        	items.add(item);
+    	}
     	submenu = new SubMenuDTO("Secciones" , items);
     	menu.add(submenu);
     	//tercer menu
