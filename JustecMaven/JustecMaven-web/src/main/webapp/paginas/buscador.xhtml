@@ -10,16 +10,19 @@
     </ui:define>
 	<ui:define name="contenido">
 		<h:form id="formPrincipal">
-		 <p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()" />
+			<p:ajaxStatus onstart="PF('statusDialog').show()"
+				onsuccess="PF('statusDialog').hide()" />
 			<h:panelGrid columns="2">
 				<p:inputText value="#{buscadorControlador.palabraBuscada}"
-					alt="PALABRA A BUSCAR" />
+					alt="PALABRA A BUSCAR" placeholder="Ingrese una palabra"/>
 				<p:commandButton value="Buscar" onclick="PF('statusDialog').show()"
 					action="#{buscadorControlador.buscar()}" update="panelResultadosId" />
 			</h:panelGrid>
 			<p:panel id="panelResultadosId">
-				<p:commandButton value="Regresar" action="#{buscadorControlador.regresar()}" update=":formPrincipal:panelResultadosId" 
-				rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}"/>
+				<p:commandButton value="Regresar"
+					action="#{buscadorControlador.regresar()}"
+					update=":formPrincipal:panelResultadosId"
+					rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}" />
 				<p:carousel value="#{buscadorControlador.paisesEncontrados}"
 					headerText="Resultado" var="pais" itemStyle="text-align:center"
 					responsive="true" rendered="#{buscadorControlador.mostrarPais}">
@@ -77,10 +80,23 @@
 					rendered="#{buscadorControlador.mostrarDocumentos}" reflow="true"
 					rows="5" paginator="true" emptyMessage="No existen resutlados">
 					<p:column>
-						<h:commandLink action="#{buscadorControlador.descargarArchivo(documento)}">
-							<center><h:graphicImage style="width:60%;" value="../css/images/pdf.png" alt="Descargar" title="Descargar Documento" /></center>
-						</h:commandLink>
+						<center><p:lightBox iframe="true" id="lighbox3">
+							<h:outputLink value="http://localhost:8181/leyes/#{documento.rutaDoc}"
+								title="#{documento.tituloDoc}">
+								<h:graphicImage style="width:60%;" value="../css/images/pdf.png"
+									alt="ver" title="Ver Documento" />
+							</h:outputLink>
+						</p:lightBox></center>
 					</p:column>
+<!-- 					<p:column> -->
+<!-- 						<h:commandLink -->
+<!-- 							action="#{buscadorControlador.descargarArchivo(documento)}"> -->
+<!-- 							<center> -->
+<!-- 								<h:graphicImage style="width:60%;" value="../css/images/pdf.png" -->
+<!-- 									alt="Descargar" title="Descargar Documento" /> -->
+<!-- 							</center> -->
+<!-- 						</h:commandLink> -->
+<!-- 					</p:column> -->
 
 					<p:column headerText="Titulo">
 						<h:outputText value="#{documento.tituloDoc}" />
@@ -111,9 +127,16 @@
 					</p:column>
 				</p:dataTable>
 			</p:panel>
+
+
 			<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
-				closable="false" resizable="false" showHeader="false">
-<!-- 				<h:graphicImage value="../css/images/ajax-loader.gif" border="0" width="100%"/> -->
+				closable="false" resizable="false">
+				<!-- 				<h:graphicImage value="../css/images/ajax-loader.gif" border="0" width="100%"/> -->
+			</p:dialog>
+
+			<p:dialog header="Modal Dialog" widgetVar="visualizador" modal="true"
+				height="100">
+				<h:outputText value="This is a Modal Dialog." />
 			</p:dialog>
 		</h:form>
 	</ui:define>
