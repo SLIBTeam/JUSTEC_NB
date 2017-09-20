@@ -10,6 +10,8 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.pdfbox.util.StringUtil;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -81,7 +83,7 @@ public class MenuBean implements Serializable{
     public DefaultMenuItem generarMenuItem(ItemMenuDTO item, boolean esVertical) {
     	DefaultMenuItem itemMenu = new DefaultMenuItem(((item.getValor()!=null && !item.getValor().isEmpty())?item.getValor():Constantes.NOMBRE_DEFECTO_ITEM_MENU), 
     			((item.getIcono()!=null && !item.getIcono().isEmpty())?item.getIcono():Constantes.ICONO_DEFECTO_MENU), 
-    			((item.getUrl()!=null && !item.getUrl().isEmpty())?item.getUrl():pathPagina(Constantes.PAGINA_DEFECTO_MENU)));
+    			((item.getUrl()!=null && !item.getUrl().isEmpty())?item.getUrl():Constantes.PAGINA_DEFECTO_MENU));
     	if(esVertical) {
     		itemMenu.setStyleClass(Constantes.ESTILO_DEFECTO_ITEM_MENU_VERTICAL);
     	}
@@ -96,9 +98,9 @@ public class MenuBean implements Serializable{
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
     	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
-    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-star");
+    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/buscador.xhtml", "ui-icon-star");
     	items.add(item);
-    	item = new ItemMenuDTO("Buscar", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-search");
+    	item = new ItemMenuDTO("Buscar", "/faces/paginas/buscador.xhtml", "ui-icon-search");
     	items.add(item);
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
     	menu.add(submenu);
@@ -107,26 +109,29 @@ public class MenuBean implements Serializable{
     	List<Seccion> secciones = seccionService.obtenerSeccionesActivas();
     	for(Seccion s : secciones)
     	{
-    		item = new ItemMenuDTO(s.getNombreSec(), pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-tag");
-        	items.add(item);
+    		try {
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/buscador.xhtml", "ui-icon-tag");
+            	items.add(item);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+    		
     	}
     	submenu = new SubMenuDTO("Secciones" , items);
     	menu.add(submenu);
     	//tercer menu
     	items  = new ArrayList<ItemMenuDTO>();
-    	item = new ItemMenuDTO("Ecuador", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-radio-on");
+    	item = new ItemMenuDTO("Ecuador", "/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
     	items.add(item);
-    	item = new ItemMenuDTO("Chile", pathPagina("/faces/paginas/buscador.xhtml"), "ui-icon-radio-on");
+    	item = new ItemMenuDTO("Chile","/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
     	items.add(item);
     	submenu = new SubMenuDTO("Países" , items);
     	menu.add(submenu);
     	return menu;
     }
     
-    public String pathPagina(String pagina) {
-    	return  FacesContext.getCurrentInstance().getExternalContext().getRequestContextPath() + pagina;
-    }
-    
+   
     // getters and setters
 
 

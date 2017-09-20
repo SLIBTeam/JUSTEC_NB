@@ -56,12 +56,17 @@
 							</div>
 						</div>
 
-						<h:panelGroup id="alertaLogueo" rendered="#{loginControlador.logueoIncorrecto != null and loginControlador.logueoIncorrecto}">
-							<div class="nk-gap-1"></div>
-							<div class="alert-danger" align="left">
-							<strong><h:outputLabel value="NO SE HA PODIDO INICIAR SU SESIÓN." /></strong><br/>
-							<h:outputLabel value="Correo electrónico o contraseña incorrectos." />
-							</div>
+						<h:panelGroup id="alertaLogueo">
+							<h:panelGroup
+								rendered="#{loginControlador.logueoIncorrecto != null and loginControlador.logueoIncorrecto}">
+								<div class="nk-gap-1"></div>
+								<div class="alert-danger" align="left">
+									<strong><h:outputLabel
+											value="NO SE HA PODIDO INICIAR SU SESIÓN." /></strong><br />
+									<h:outputLabel
+										value="Correo electrónico o contraseña incorrectos." />
+								</div>
+							</h:panelGroup>
 						</h:panelGroup>
 
 					</div>

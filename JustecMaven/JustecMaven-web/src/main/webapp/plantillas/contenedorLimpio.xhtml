@@ -22,7 +22,6 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-	<!-- START: Styles -->
 
 	<!-- Google Fonts -->
 	<link
@@ -32,34 +31,18 @@
 	<link rel="stylesheet"
 		href="#{request.contextPath}/assets/css/combined.css" />
 
-	<!-- END: Styles -->
 
-
-	<!-- START: estilos por defecto aplicacion -->
 	<link type="text/css" rel="stylesheet"
 		href="#{request.contextPath}/css/estilo.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/estilos_inspinia.css" />
+	<link type="text/css" rel="stylesheet"
+		href="#{request.contextPath}/css/bootstrap.min.css" />
 	<script type="text/javascript" src="#{request.contextPath}/js/utils.js" />
-	<!-- bootstrap -->
-	<link rel="stylesheet"
-		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-		integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M"
-		crossorigin="anonymous" />
-	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
-		integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
-		crossorigin="anonymous"></script>
-	<script
-		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js"
-		integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1"
-		crossorigin="anonymous"></script>
-	<!-- END: estilos por defecto aplicacion -->
-<style>
 
-.nk-footer{
-background-color: #f6f6f6 !important;
+	<style>
+.nk-footer {
+	background-color: #f6f6f6 !important;
 }
 </style>
 
@@ -67,14 +50,14 @@ background-color: #f6f6f6 !important;
 
 <body style="background-color: #f6f6f6">
 	<div class="nk-main">
-		<br />
-		<br />
-		<p:ajaxStatus onstart="PF('statPane').show();"
-			oncomplete="PF('statPane').hide()" />
-		<p:dialog widgetVar="statPane" modal="true" resizable="true">
+		<!-- PANEL DE ESTADO  -->
+		<p:ajaxStatus onstart="PF('statusDialog').show()" oncomplete="PF('statusDialog').hide()"/>
+		<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
+			closable="false" resizable="false" showHeader="false">
 			<h:graphicImage value="/css/images/ajax-loader.gif" alt="ai" />
                             Por favor espere...
-                        </p:dialog>
+				</p:dialog>
+		<!-- FIN PANEL DE ESTADO  -->
 		<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
 			closable="true" />
 		<div class="container" id="contact">
@@ -82,19 +65,13 @@ background-color: #f6f6f6 !important;
 				<h:outputText value="Contenido de la p&#255;gina" />
 			</ui:insert>
 		</div>
-		
+
 		<div class="nk-gap-2"></div>
 		<ui:insert name="pie">
 			<ui:include src="/plantillas/pieInterno.xhtml" />
 		</ui:insert>
 
 	</div>
-
-	<!-- START: Scripts -->
-
-	<script src="#{request.contextPath}/assets/js/combined.js"></script>
-
-	<!-- END: Scripts -->
 
 </body>
 
