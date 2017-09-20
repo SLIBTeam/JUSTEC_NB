@@ -38,7 +38,7 @@ public class LoginControlador extends BaseControlador implements Serializable {
     public void iniciarSesion() {
     	logueoIncorrecto = null;
     	if(usuario.equals("admin") && contrasenia.equals("admin123")) {
-    		sesionControlador.setNombreUsuario("Luis Falcones");
+    		sesionControlador.setNombreUsuario("Diego Pozo");
     		sesionControlador.setLogueoCorrecto(true);
     		redireccionarPagina("/faces/paginas/buscador.xhtml");
     	}else {
