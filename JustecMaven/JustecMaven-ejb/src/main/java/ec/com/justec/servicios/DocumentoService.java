@@ -27,6 +27,12 @@ public class DocumentoService implements DocumentoServiceLocal {
     {
         return documentoFacade.obtenerTodoDocumento();
     }
+    
+    @Override
+    public void actualizar(Documento documento)
+    {
+    	documentoFacade.edit(documento);
+    }
             
     
 }

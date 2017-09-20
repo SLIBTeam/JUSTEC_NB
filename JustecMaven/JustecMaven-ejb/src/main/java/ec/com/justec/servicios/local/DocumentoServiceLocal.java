@@ -21,5 +21,11 @@ public interface DocumentoServiceLocal {
      * @return 
      */
     public List<Documento> obtenerTodoDocumento();
+
+    /**
+     * Metodo que actualiza un documento
+     * @param documento
+     */
+	void actualizar(Documento documento);
     
 }

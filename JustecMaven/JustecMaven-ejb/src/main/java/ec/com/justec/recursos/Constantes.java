@@ -9,4 +9,6 @@ public class Constantes {
 	public static final String PAGINA_DEFECTO_MENU = "/faces/paginas/buscador.xhtml";
 	public static final String ESTILO_DEFECTO_ITEM_MENU_VERTICAL = "button-submenu-style";
 	public static final String ESTILO_DEFECTO_SUB_MENU_VERTICAL = "button-menu-style";
+	public static final String FOLDER_LEYES = "leyes";
+	public static final String FOLDER_SERVIDOR = "welcome-content";
 }
