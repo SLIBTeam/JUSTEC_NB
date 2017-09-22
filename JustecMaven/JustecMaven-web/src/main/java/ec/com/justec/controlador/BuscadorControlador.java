@@ -33,6 +33,7 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -111,7 +112,6 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 				}
 			}
 			resultadosPaisMap = generarResultadoXPais(paisesEncontrados, documentosEncontradosTotal);
-			Util.crearDirectorio(Constantes.FOLDER_LEYES);
 			mostrarPais = Boolean.TRUE;
 		} catch (Exception e) {
 			agregarMensajeError(e);

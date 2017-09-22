@@ -87,7 +87,7 @@
 						<center>
 							<p:lightBox iframe="true" id="lighbox3">
 								<h:outputLink
-									value="http://localhost:8181/leyes/#{documento.rutaDoc}"
+									value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/#{documento.rutaDoc}"
 									title="#{documento.tituloDoc}">
 									<h:graphicImage style="width:60%;"
 										value="../css/images/pdf.png" alt="ver" title="Ver Documento" />

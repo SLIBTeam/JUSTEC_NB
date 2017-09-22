@@ -187,7 +187,7 @@ public class BaseControlador {
      *
      * @return
      */
-    protected ExternalContext getExternalContext() {
+    public ExternalContext getExternalContext() {
         return FacesContext.getCurrentInstance().getExternalContext();
     }
 
