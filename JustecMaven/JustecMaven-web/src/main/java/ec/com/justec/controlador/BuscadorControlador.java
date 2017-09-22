@@ -5,6 +5,7 @@
  */
 package ec.com.justec.controlador;
 
+import ec.com.justec.enumeradores.EstadoEnum;
 import ec.com.justec.facade.local.UsuarioServiceLocal;
 import ec.com.justec.modelo.Documento;
 import ec.com.justec.modelo.Pais;
@@ -47,6 +48,10 @@ import org.apache.pdfbox.util.PDFTextStripper;
 @ViewScoped
 public class BuscadorControlador extends BaseControlador implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2416482371077787199L;
 	/**
 	 * Creates a new instance of BuscadorControlador
 	 */
@@ -136,7 +141,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 		resultadoBusqueda.setCodigoDoc(documento);
 		resultadoBusqueda.setFechaRb(new Date());
 		resultadoBusqueda.setTextoRb(palabraBuscada.toUpperCase());
-		resultadoBusqueda.setUsuarioRb(usuarioService.obtenerPorNombre("1723723092"));
+		resultadoBusqueda.setUsuarioRb(usuarioService.obtenerPorIdentificacion(sesionControlador.getIdentificacionUsuario(), EstadoEnum.ACTIVO.getValor()));
 		return resultadoBusqueda;
 	}
 

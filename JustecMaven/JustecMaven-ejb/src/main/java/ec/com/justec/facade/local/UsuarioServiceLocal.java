@@ -22,4 +22,12 @@ public interface UsuarioServiceLocal {
      */
     public Usuario obtenerPorNombre(String nombre);
     
+    /**
+     * Método que obtiene un usuario por identificacion
+     * @param identificacion
+     * @param estado
+     * @return objeto Usuario
+     */
+    public Usuario obtenerPorIdentificacion(String identificacion, String estado);
+    
 }

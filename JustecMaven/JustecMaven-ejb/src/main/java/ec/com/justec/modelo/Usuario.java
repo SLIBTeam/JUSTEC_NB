@@ -68,8 +68,13 @@ public class Usuario implements Serializable {
     private List<ResultadoBusqueda> resultadoBusquedaList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoUs", fetch = FetchType.LAZY)
     private List<UsuarioClave> usuarioClaveList;
+    
+    @Size(min = 1, max = 50)
+    @Column(name = "identificacion_us")
+    private String identificacionUs;
 
-    public Usuario() {
+
+	public Usuario() {
     }
 
     public Usuario(Integer codigoUs) {
@@ -166,5 +171,13 @@ public class Usuario implements Serializable {
     public String toString() {
         return "ec.com.justec.modelo.Usuario[ codigoUs=" + codigoUs + " ]";
     }
+    
+    public String getIdentificacionUs() {
+		return identificacionUs;
+	}
+
+	public void setIdentificacionUs(String identificacionUs) {
+		this.identificacionUs = identificacionUs;
+	}
     
 }

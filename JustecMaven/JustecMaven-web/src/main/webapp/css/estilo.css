@@ -226,6 +226,8 @@ body {
 	color:#888888 !important; 
 	text-transform: none !important;
 	font-size: 13px !important;
+	margin: 0;
+    font-weight: 400;
 }
 .text-boton-menu-interno{
     text-transform: uppercase;
