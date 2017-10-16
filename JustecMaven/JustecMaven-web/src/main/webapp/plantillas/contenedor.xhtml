@@ -84,9 +84,16 @@
 				<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
 					closable="true" />
 				<div class="container">
-					<ui:insert name="contenido">
-						<h:outputText value="Contenido de la p&#255;gina" />
-					</ui:insert>
+					 <p:tabView>
+					        <p:tab title="Buscador">
+								<ui:insert name="contenido">
+									<h:outputText value="Contenido de la p&#255;gina" />
+								</ui:insert>
+					        </p:tab>
+					        <p:tab title="Indicadores" rendered="#{buscadorControlador.seccionId != null}">
+					            <p:chart type="bar" model="#{indicadorControlador.barModel}" style="height:300px"/>
+					        </p:tab>
+					    </p:tabView>
 				</div>
 			</div>
 		</div>

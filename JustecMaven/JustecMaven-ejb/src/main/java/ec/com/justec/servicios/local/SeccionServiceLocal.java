@@ -21,5 +21,12 @@ public interface SeccionServiceLocal {
      * @return 
      */
     public List<Seccion> obtenerSeccionesActivas();
+
+    /**
+     * Metodo que obtiene la seccion por su id
+     * @param id
+     * @return
+     */
+	public Seccion obtenerXId(Integer id);
     
 }

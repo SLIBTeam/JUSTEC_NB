@@ -110,24 +110,24 @@ public class MenuBean implements Serializable{
     	for(Seccion s : secciones)
     	{
     		try {
-    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/buscador.xhtml", "ui-icon-tag");
-            	items.add(item);
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/buscador.xhtml?seccionId="+s.getCodigoSec(), "ui-icon-tag");
+    			items.add(item);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
     		
     	}
-    	submenu = new SubMenuDTO("Secciones" , items);
+    	submenu = new SubMenuDTO("Normativas" , items);
     	menu.add(submenu);
     	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
-    	item = new ItemMenuDTO("Ecuador", "/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-    	items.add(item);
-    	item = new ItemMenuDTO("Chile","/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-    	items.add(item);
-    	submenu = new SubMenuDTO("Países" , items);
-    	menu.add(submenu);
+//    	items  = new ArrayList<ItemMenuDTO>();
+//    	item = new ItemMenuDTO("Ecuador", "/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
+//    	items.add(item);
+//    	item = new ItemMenuDTO("Chile","/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
+//    	items.add(item);
+//    	submenu = new SubMenuDTO("Países" , items);
+//    	menu.add(submenu);
     	return menu;
     }
     

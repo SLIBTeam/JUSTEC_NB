@@ -33,6 +33,11 @@ public class DocumentoService implements DocumentoServiceLocal {
     {
     	documentoFacade.edit(documento);
     }
+    
+    @Override
+    public List<Documento> obtenerTodoDocumentoXSeccion(Integer seccionId) {
+    	return documentoFacade.obtenerTodoDocumentoXSeccion(seccionId);
+    }
             
     
 }

@@ -35,5 +35,12 @@ public interface DocumentoFacadeLocal {
      * @return 
      */
     public List<Documento> obtenerTodoDocumento();
+
+    /**
+     * Metodo que obtiene los documentos activos de una sección
+     * @param seccionId
+     * @return
+     */
+	List<Documento> obtenerTodoDocumentoXSeccion(Integer seccionId);
     
 }

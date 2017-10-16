@@ -41,5 +41,15 @@ public class DocumentoFacade extends AbstractFacade<Documento> implements Docume
         q.setParameter("estado", EstadoEnum.ACTIVO.getValor());
         return q.getResultList();
     }
+    
+    @Override
+    public List<Documento> obtenerTodoDocumentoXSeccion(Integer seccionId) {
+        Query q = em.createQuery("Select d from Documento d left join fetch d.codigoTn left join fetch d.codigoTp left join fetch d.codigoMat "
+                + "left join fetch d.codigoSec left join fetch d.codigoPais "
+                + "where d.estadoDoc = :estado and d.codigoSec.codigoSec = :seccionId");
+        q.setParameter("estado", EstadoEnum.ACTIVO.getValor());
+        q.setParameter("seccionId", seccionId);
+        return q.getResultList();
+    }
 
 }
