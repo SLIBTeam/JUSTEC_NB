@@ -7,11 +7,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pdfbox.util.StringUtil;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -39,9 +37,9 @@ public class MenuBean implements Serializable{
     public void init(){
         //creating menu
     	menuModelVertical = new DefaultMenuModel();
-    	menuModelHorizontal = new DefaultMenuModel();
+    	//menuModelHorizontal = new DefaultMenuModel();
         generateMenu(menuModelVertical, true);
-        generateMenu(menuModelHorizontal, false);
+        //generateMenu(menuModelHorizontal, false);
     }
     
     
