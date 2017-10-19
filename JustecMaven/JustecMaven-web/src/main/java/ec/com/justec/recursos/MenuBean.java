@@ -104,6 +104,12 @@ public class MenuBean implements Serializable{
     	items.add(item);
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
     	menu.add(submenu);
+    	//tercer menu
+    	items  = new ArrayList<ItemMenuDTO>();
+    	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
+    	items.add(item);
+    	submenu = new SubMenuDTO("Indicadores normativas" , items);
+    	menu.add(submenu);
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
     	List<Seccion> secciones = seccionService.obtenerSeccionesActivas();
@@ -120,14 +126,7 @@ public class MenuBean implements Serializable{
     	}
     	submenu = new SubMenuDTO("Normativas" , items);
     	menu.add(submenu);
-    	//tercer menu
-//    	items  = new ArrayList<ItemMenuDTO>();
-//    	item = new ItemMenuDTO("Ecuador", "/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-//    	items.add(item);
-//    	item = new ItemMenuDTO("Chile","/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-//    	items.add(item);
-//    	submenu = new SubMenuDTO("Países" , items);
-//    	menu.add(submenu);
+    	
     	return menu;
     }
     

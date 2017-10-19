@@ -73,6 +73,18 @@
 			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/pdfclown.jar</systemPath>
 		</dependency>
 
+		<!-- dependecias para reporte en excel -->
+		<dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.14</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.14</version>
+        </dependency>
+		<!-- fin de dependencias para reporte en excel -->
 
 
 	</dependencies>

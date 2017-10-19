@@ -43,15 +43,16 @@
 	<link type="text/css" rel="stylesheet"
 		href="#{request.contextPath}/css/bootstrap.min.css" />
 	<script type="text/javascript" src="#{request.contextPath}/js/utils.js" />
-	
+
 	<style>
-	.ui-widget {
+.ui-widget {
 	font-size: 13px !important;
-	}
-	.nk-header {
-    z-index: 0;
-	}
-	</style>
+}
+
+.nk-header {
+	z-index: 0;
+}
+</style>
 
 </h:head>
 
@@ -74,7 +75,8 @@
 			</div>
 			<div class="col-lg-10">
 				<!-- PANEL DE ESTADO  -->
-				<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
+				<p:ajaxStatus onstart="PF('statusDialog').show()"
+					onsuccess="PF('statusDialog').hide()" />
 				<p:dialog widgetVar="statusDialog" modal="true" draggable="false"
 					closable="false" resizable="false" showHeader="false">
 					<h:graphicImage value="/css/images/ajax-loader.gif" alt="ai" />
@@ -84,16 +86,22 @@
 				<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
 					closable="true" />
 				<div class="container">
-					 <p:tabView>
-					        <p:tab title="Buscador">
-								<ui:insert name="contenido">
-									<h:outputText value="Contenido de la p&#255;gina" />
-								</ui:insert>
-					        </p:tab>
-					        <p:tab title="Indicadores" rendered="#{buscadorControlador.seccionId != null}">
-					            <p:chart type="bar" model="#{indicadorControlador.barModel}" style="height:300px"/>
-					        </p:tab>
-					    </p:tabView>
+					<div class="nk-gap"></div>
+					<div class="nk-blog-isotope ">
+						<div class="nk-isotope-item">
+							<div class="nk-blog-post">
+								<div class="nk-post-text">
+									<p:panel style="border:none !important;margin:0px;padding:0px">
+										<ui:insert name="contenido">
+											<h:outputText value="Contenido de la p&#255;gina" />
+										</ui:insert>
+									</p:panel>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>

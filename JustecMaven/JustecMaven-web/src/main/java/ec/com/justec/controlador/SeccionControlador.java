@@ -21,7 +21,11 @@ import javax.faces.view.ViewScoped;
 @ViewScoped
 public class SeccionControlador extends BaseControlador implements Serializable{
 
-    @EJB
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8449003150383659513L;
+	@EJB
     private SeccionServiceLocal seccionService;
     /**
      * Creates a new instance of SeccionControlador

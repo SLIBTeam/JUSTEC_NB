@@ -1,0 +1,107 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/contenedor.xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="titulo">
+        Carga de indicadores
+    </ui:define>
+	<ui:define name="contenido">
+		<h:form id="formPrincipalIndicador">
+
+			<div class="alert-info">
+				<h:outputLabel
+					value="Estimado usuario cargue el archivo Excel para la actualización de indicadores para una normativa seleccionada." />
+			</div>
+
+			<p:tabView>
+				<p:tab title="Carga indicadores">
+
+					<div class="nk-gap-1"></div>
+
+
+					<h:panelGrid columns="2" columnClasses=", padding-left-5">
+						<h:panelGroup>
+							<strong><h:outputLabel value="* Normativa:" /></strong>
+						</h:panelGroup>
+						<h:selectOneMenu id="normativa" 
+							styleClass="form-control"
+							value="#{cargaIndicadorControlador.codNormativaSeleccionada}"
+							required="true"
+							requiredMessage="Campo obligatorio.">
+							<f:selectItem itemLabel="Seleccione..." itemDisabled="true" />
+							<f:selectItems value="#{cargaIndicadorControlador.normativas}" var="item" itemValue="#{item.codigoSec}" itemLabel="#{item.nombreSec}" />
+							<p:ajax process="@this" update="mesajesCarga" listener="#{cargaIndicadorControlador.inicializarElementosCarga()}"></p:ajax>
+						</h:selectOneMenu>
+					</h:panelGrid>
+
+					<div class="nk-gap"></div>
+
+					<h:panelGrid columns="2">
+						<h:panelGroup>
+							<strong><h:outputLabel value="Formato Archivo Excel (.xls, .xlsx) " /></strong>
+						</h:panelGroup>
+						<h:graphicImage id="ayudaImage"
+							style="margin-top: -12px; margin-left: 4px;"
+							url="/css/images/question.png" />
+						<p:tooltip id="toolTipFade" for="ayudaImage" position="top">
+							<h:graphicImage url="/css/images/formatoCargaValores.png"
+								style="width: 100%;height: 100%;" />
+						</p:tooltip>
+					</h:panelGrid>
+
+
+					<p:fileUpload mode="advanced" 
+						fileUploadListener="#{cargaIndicadorControlador.cargarExcel}"
+						dragDropSupport="false"
+						cancelLabel="Cancelar" 
+						uploadLabel="Guardar" 
+						label="Seleccionar y guardar"
+						update="messages, mesajesCarga" 
+						sizeLimit="#{cargaIndicadorControlador.tamanioMaxArchivo}" 
+						invalidFileMessage="Tipo de archivo incorrecto. El sistema acepta solamente archivos de tipo .xls y .xlsx"
+						invalidSizeMessage="Tama&#241;o m&#225;ximo del archivo de 2MB."
+						allowTypes="/(\.|\/)(xls|xlsx)$/" 
+						auto="true">
+						
+					</p:fileUpload>
+					<p:growl id="messages" showDetail="true" />
+					
+					
+					<h:panelGroup id="mesajesCarga">
+							<h:panelGroup
+								rendered="#{cargaIndicadorControlador.respuestaMensaje != null and cargaIndicadorControlador.respuestaMensaje.respuesta}">
+								<div class="nk-gap-1"></div>
+								<div class="alert-danger" align="left">
+									<h:outputLabel
+										value="#{cargaIndicadorControlador.respuestaMensaje.mensaje}" escape="false"/>
+								</div>
+							</h:panelGroup>
+							<h:panelGroup
+								rendered="#{cargaIndicadorControlador.respuestaMensajeSatisfactorio != null and cargaIndicadorControlador.respuestaMensajeSatisfactorio.respuesta and !cargaIndicadorControlador.respuestaMensajeSatisfactorio.respuestaAlterna}">
+								<div class="nk-gap-1"></div>
+								<div class="alert-sucess" align="left">
+									<h:outputLabel
+										value="#{cargaIndicadorControlador.respuestaMensajeSatisfactorio.mensaje}" escape="false"/>
+								</div>
+							</h:panelGroup>
+							<h:panelGroup
+								rendered="#{cargaIndicadorControlador.respuestaMensajeSatisfactorio != null and cargaIndicadorControlador.respuestaMensajeSatisfactorio.respuesta and cargaIndicadorControlador.respuestaMensajeSatisfactorio.respuestaAlterna}">
+								<div class="nk-gap-1"></div>
+								<div class="alert-warning" align="left">
+									<h:outputLabel
+										value="#{cargaIndicadorControlador.respuestaMensajeSatisfactorio.mensaje}" escape="false"/>
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+					
+				</p:tab>
+			</p:tabView>
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+
+
