@@ -58,8 +58,12 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
 	@PostConstruct
 	public void init() {		
 		if (sesionControlador.isLogueoCorrecto()) {
-			seccion = seccionService.obtenerXId(1);
-			indicadores = indicadorServiceLocal.listarPorCodSeccion(1, EstadoEnum.ACTIVO.getValor());
+			Integer codigoSeccion = getHttpRequest().getParameter("seccionId") != null ? Integer.parseInt(getHttpRequest().getParameter("seccionId")) : null;
+			if(codigoSeccion != null)
+			{
+				seccion = seccionService.obtenerXId(codigoSeccion);
+				indicadores = indicadorServiceLocal.listarPorCodSeccion(codigoSeccion, EstadoEnum.ACTIVO.getValor());
+			}
 			valoresIndicador = new ArrayList<IndicadorValores>();
 			aniosIndicador = new ArrayList<Integer>();
 			paisesIndicador = new ArrayList<Pais>();

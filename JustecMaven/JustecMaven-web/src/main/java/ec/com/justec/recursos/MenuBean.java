@@ -96,9 +96,9 @@ public class MenuBean implements Serializable{
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
     	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
-    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/buscador.xhtml", "ui-icon-star");
+    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-star");
     	items.add(item);
-    	item = new ItemMenuDTO("Buscar", "/faces/paginas/buscador.xhtml", "ui-icon-search");
+    	item = new ItemMenuDTO("Buscar", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-search");
     	items.add(item);
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
     	menu.add(submenu);
@@ -114,7 +114,7 @@ public class MenuBean implements Serializable{
     	for(Seccion s : secciones)
     	{
     		try {
-    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/buscador.xhtml?seccionId="+s.getCodigoSec(), "ui-icon-tag");
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec(), "ui-icon-tag");
     			items.add(item);
 			} catch (Exception e) {
 				// TODO: handle exception

@@ -109,7 +109,6 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 	@PostConstruct
 	private void init() {
-		System.out.println("parametro: "+getHttpRequest().getParameter("seccionId"));
 		if (sesionControlador.isLogueoCorrecto()) {
 			listaSecciones = seccionService.obtenerSeccionesActivas();
 			mostrarDocumentos = Boolean.FALSE;

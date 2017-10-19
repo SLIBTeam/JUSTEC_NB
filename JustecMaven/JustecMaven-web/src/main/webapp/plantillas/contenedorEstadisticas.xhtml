@@ -92,20 +92,25 @@
 						<div class="nk-isotope-item">
 							<div class="nk-blog-post">
 								<div class="nk-post-text">
-										<p:tabView id="tabGlobal">
-											<p:tab title="Buscador">
-											<!-- <ui:include src="/paginas/buscador.xhtml" /> -->
-											
-													<ui:insert name="contenido">
+								<ui:insert name="contenido">
 														<h:outputText value="Contenido de la p&#255;gina" />
-													</ui:insert> 
-											</p:tab>
-											<p:tab title="Indicadores"
-												rendered="#{buscadorControlador.seccionId != null}">
-												<!-- <ui:include src="/paginas/indicadoresMatriz.xhtml" /> -->
-					           					
-					        				</p:tab>
-										</p:tabView>
+													</ui:insert>
+<!-- 										<p:tabView id="tabGlobal"> -->
+<!-- 											<p:tab title="Buscador"> -->
+<!-- 											<ui:include src="/paginas/buscador.xhtml" /> -->
+											
+<!-- 													<ui:insert name="contenido"> -->
+<!-- 														<h:outputText value="Contenido de la p&#255;gina" /> -->
+<!-- 													</ui:insert>  -->
+<!-- 											</p:tab> -->
+<!-- 											<p:tab title="Indicadores" -->
+<!-- 												rendered="#{buscadorControlador.seccionId != null}"> -->
+<!-- 												<ui:include src="/paginas/indicadoresMatriz.xhtml" /> -->
+<!-- 					           					<ui:insert name="contenido"> -->
+<!-- 														<h:outputText value="Contenido de la p&#255;gina" /> -->
+<!-- 													</ui:insert>  -->
+<!-- 					        				</p:tab> -->
+<!-- 										</p:tabView> -->
 
 								</div>
 							</div>
