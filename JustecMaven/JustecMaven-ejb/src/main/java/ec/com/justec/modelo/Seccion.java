@@ -64,6 +64,8 @@ public class Seccion implements Serializable {
     private Date fechaActSec;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoSec", fetch = FetchType.LAZY)
     private List<Documento> documentoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoSec", fetch = FetchType.LAZY)
+    private List<Indicador> indicadorList;
 
     public Seccion() {
     }
@@ -144,5 +146,14 @@ public class Seccion implements Serializable {
     public String toString() {
         return "ec.com.justec.modelo.Seccion[ codigoSec=" + codigoSec + " ]";
     }
+
+    @XmlTransient
+	public List<Indicador> getIndicadorList() {
+		return indicadorList;
+	}
+
+	public void setIndicadorList(List<Indicador> indicadorList) {
+		this.indicadorList = indicadorList;
+	}
     
 }

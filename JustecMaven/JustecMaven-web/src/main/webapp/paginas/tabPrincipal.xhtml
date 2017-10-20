@@ -1,0 +1,24 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/plantillas/contenedorEstadisticas.xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+	<ui:define name="titulo">
+        Buscador
+    </ui:define>
+	<ui:define name="contenido">
+		<p:tabView id="tabGlobal">
+			<p:tab title="Buscador">
+				<ui:include src="/paginas/buscador.xhtml" />
+			</p:tab>
+			<p:tab title="Indicadores"
+				rendered="#{buscadorControlador.seccionId != null}">
+				<ui:include src="/paginas/indicadoresMatriz.xhtml" />
+			</p:tab>
+		</p:tabView>
+	</ui:define>
+</ui:composition>
+
+

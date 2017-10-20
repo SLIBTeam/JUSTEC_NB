@@ -5,6 +5,7 @@
  */
 package ec.com.justec.controlador;
 
+import ec.com.justec.enumeradores.EstadoEnum;
 import ec.com.justec.facade.local.UsuarioServiceLocal;
 import ec.com.justec.modelo.Documento;
 import ec.com.justec.modelo.Pais;
@@ -16,6 +17,7 @@ import ec.com.justec.servicios.local.ResultadoBusquedaServiceLocal;
 import ec.com.justec.servicios.local.SeccionServiceLocal;
 import ec.com.justec.util.Util;
 
+import java.awt.geom.Rectangle2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,15 +31,29 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.util.PDFTextStripper;
+import org.apache.pdfbox.util.Splitter;
+import org.pdfclown.documents.Page;
+import org.pdfclown.documents.contents.ITextString;
+import org.pdfclown.documents.contents.TextChar;
+import org.pdfclown.documents.interaction.annotations.TextMarkup;
+import org.pdfclown.documents.interaction.annotations.TextMarkup.MarkupTypeEnum;
+import org.pdfclown.files.SerializationModeEnum;
+import org.pdfclown.tools.TextExtractor;
+import org.pdfclown.util.math.Interval;
+import org.pdfclown.util.math.geom.Quad;
 
 /**
  *
@@ -47,6 +63,10 @@ import org.apache.pdfbox.util.PDFTextStripper;
 @ViewScoped
 public class BuscadorControlador extends BaseControlador implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2416482371077787199L;
 	/**
 	 * Creates a new instance of BuscadorControlador
 	 */
@@ -63,6 +83,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 	private Boolean mostrarDocumentos = Boolean.FALSE;
 	private Boolean mostrarPais = Boolean.FALSE;
 	private String urlPdf;
+	private Integer seccionId;
 
 	@EJB
 	private SeccionServiceLocal seccionService;
@@ -75,6 +96,14 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 	@Inject
 	private SesionControlador sesionControlador;
 
+	public Integer getSeccionId() {
+		return seccionId;
+	}
+
+	public void setSeccionId(Integer seccionId) {
+		this.seccionId = seccionId;
+	}
+
 	public BuscadorControlador() {
 	}
 
@@ -85,6 +114,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 			mostrarDocumentos = Boolean.FALSE;
 			mostrarSecciones = Boolean.FALSE;
 			mostrarPais = Boolean.FALSE;
+			seccionId = getHttpRequest().getParameter("seccionId") != null ? Integer.parseInt(getHttpRequest().getParameter("seccionId")) : null; 
 		} else {
 			redireccionarPagina("/faces/paginas/principal.xhtml");
 		}
@@ -92,21 +122,36 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 	public void buscar() {
 		try {
+			System.out.println("seccionId: "+seccionId);
 			mostrarDocumentos = Boolean.FALSE;
 			mostrarSecciones = Boolean.FALSE;
 			documentosEncontradosTotal = new ArrayList<Documento>();
 			seccionesEncontradas = new HashSet<Seccion>();
-			List<Documento> documentos = documentoService.obtenerTodoDocumento();
+			List<Documento> documentos = new ArrayList<>();
+			if(seccionId != null)
+			{
+				documentos = documentoService.obtenerTodoDocumentoXSeccion(seccionId);
+			}
+			else
+			{
+				documentos = documentoService.obtenerTodoDocumento();
+			}
 			for (Documento documento : documentos) {
-				if (buscarPalabraEnDocumento(documento, palabraBuscada.toUpperCase())) {
-					documentosEncontradosTotal.add(documento);
-					paisesEncontrados.add(documento.getCodigoPais());
-					seccionesEncontradas.add(documento.getCodigoSec());
-					resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
+				try {
+					buscarCoincidenciaDocumento(documento, palabraBuscada);
+					if (documento.getExistePalabra()) {
+//						documento.setPagina(obtenerPaginaPDF(documento, palabraBuscada.toUpperCase()));
+						documentosEncontradosTotal.add(documento);
+						paisesEncontrados.add(documento.getCodigoPais());
+						seccionesEncontradas.add(documento.getCodigoSec());
+						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				
 			}
 			resultadosPaisMap = generarResultadoXPais(paisesEncontrados, documentosEncontradosTotal);
-			Util.crearDirectorio(Constantes.FOLDER_LEYES);
 			mostrarPais = Boolean.TRUE;
 		} catch (Exception e) {
 			agregarMensajeError(e);
@@ -130,13 +175,119 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 		return existePalabra;
 	}
+	
+	private void buscarCoincidenciaDocumento(final Documento documento, String palabra) throws IOException{
+//		Boolean existePalabra = Boolean.FALSE;
+		int pagina = 0;
+		
+		org.pdfclown.files.File file = new org.pdfclown.files.File(Util.obtenerRutaDocumentos() + documento.getRutaDoc());
+        Pattern pattern = Pattern.compile(palabra, Pattern.CASE_INSENSITIVE);
+                
+        TextExtractor textExtractor = new TextExtractor(true, true);
+
+        for (final Page page : file.getDocument().getPages()) {
+        	final int pag = pagina + 1;
+        	Map<Rectangle2D, List<ITextString>> textStrings = textExtractor.extract(page);
+
+            final Matcher matcher = pattern.matcher(TextExtractor.toString(textStrings));
+            textExtractor.filter(
+                    textStrings,
+                    new TextExtractor.IIntervalFilter() {
+                @Override
+                public boolean hasNext() {
+                    return matcher.find();
+                }
+
+                @Override
+                public Interval next() {
+                    return new Interval(matcher.start(), matcher.end());
+                }
+
+                @Override
+                public void process(
+                        Interval interval,
+                        ITextString match
+                ) {
+                    List highlightQuads = new ArrayList();
+                    {
+                        Rectangle2D textBox = null;
+                        for (TextChar textChar : match.getTextChars()) {
+                            Rectangle2D textCharBox = textChar.getBox();
+                            if (textBox == null) {
+                                textBox = (Rectangle2D) textCharBox.clone();
+                            } else {
+                                if (textCharBox.getY() > textBox.getMaxY()) {
+                                    highlightQuads.add(Quad.get(textBox));
+                                    textBox = (Rectangle2D) textCharBox.clone();
+                                } else {
+                                    textBox.add(textCharBox);
+                                }
+                            }
+                        }
+                        highlightQuads.add(Quad.get(textBox));
+                    }
+                    new TextMarkup(page, null, MarkupTypeEnum.Highlight, highlightQuads);
+                    generarRutaAlternaYPaginaDocumento(documento, pag);
+                }
+
+                @Override
+                public void remove() {
+                    throw new UnsupportedOperationException();
+                }
+            }
+            );
+            pagina++;
+        }
+
+        if(documento.getExistePalabra())
+        	file.save(Util.obtenerRutaDocumentos() +"temp_"+ documento.getRutaDoc(),SerializationModeEnum.Incremental);
+        System.err.println("fin");
+		
+//		return existePalabra;
+	}
+	
+	private void generarRutaAlternaYPaginaDocumento(Documento documento, Integer pagina)
+	{
+		if(!documento.getExistePalabra())
+		{
+			documento.setExistePalabra(Boolean.TRUE);
+			documento.setPagina(pagina);
+			documento.setRutaTemp("temp_"+documento.getRutaDoc());
+		}
+	}
+	
+	private Integer obtenerPaginaPDF(Documento documento, String palabra)throws IOException {
+		Integer pagina = 0;
+		try {
+			PDDocument pdf = PDDocument.load(new File(Util.obtenerRutaDocumentos() + documento.getRutaDoc()));
+			
+			Splitter splitter = new Splitter();
+			splitter.setStartPage(1);
+			
+			List<PDDocument> paginas = splitter.split(pdf);
+			for(int i= 0; i < paginas.size(); i++)
+			{
+				PDDocument doc = (PDDocument) paginas.get(i);
+				String content =  new PDFTextStripper().getText(doc).toUpperCase();
+				doc.close();
+				if (content.contains(palabra)) {
+					pagina = i+1;
+					break;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return pagina;
+	}
 
 	private ResultadoBusqueda generarResultadoBusqueda(Documento documento) {
 		ResultadoBusqueda resultadoBusqueda = new ResultadoBusqueda();
 		resultadoBusqueda.setCodigoDoc(documento);
 		resultadoBusqueda.setFechaRb(new Date());
 		resultadoBusqueda.setTextoRb(palabraBuscada.toUpperCase());
-		resultadoBusqueda.setUsuarioRb(usuarioService.obtenerPorNombre("1723723092"));
+		resultadoBusqueda.setUsuarioRb(usuarioService.obtenerPorIdentificacion(sesionControlador.getIdentificacionUsuario(), EstadoEnum.ACTIVO.getValor()));
 		return resultadoBusqueda;
 	}
 

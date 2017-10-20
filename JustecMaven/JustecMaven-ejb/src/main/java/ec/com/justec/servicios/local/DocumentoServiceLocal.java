@@ -27,5 +27,12 @@ public interface DocumentoServiceLocal {
      * @param documento
      */
 	void actualizar(Documento documento);
+
+	/**
+	 * Metodo que obtiene todos los documentos activos de una sección
+	 * @param seccionId
+	 * @return
+	 */
+	List<Documento> obtenerTodoDocumentoXSeccion(Integer seccionId);
     
 }

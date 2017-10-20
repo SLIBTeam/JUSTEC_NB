@@ -2,13 +2,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	template="/plantillas/contenedor.xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
-	<ui:define name="titulo">
-        Buscador
-    </ui:define>
-	<ui:define name="contenido">
 		<h:form id="formPrincipal">
 
 			<div class="nk-gap-1"></div>
@@ -19,12 +14,12 @@
 						alt="PALABRA A BUSCAR" placeholder="Ingrese una palabra" />
 					<p:commandButton value="Buscar"
 						action="#{buscadorControlador.buscar()}"
-						update=":formPrincipal:panelResultadosId" />
+						update="formPrincipal:panelResultadosId" />
 				</h:panelGrid>
 				<div class="nk-gap"></div>
 				<p:commandButton value="Regresar"
 					action="#{buscadorControlador.regresar()}"
-					update=":formPrincipal:panelResultadosId"
+					update="formPrincipal:panelResultadosId"
 					rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}" />
 				<div class="nk-gap"></div>
 				<p:carousel value="#{buscadorControlador.paisesEncontrados}"
@@ -38,7 +33,7 @@
 								<h:commandLink
 									action="#{buscadorControlador.obtenerSecciones(pais)}"
 									value="#{pais.nombrePais}"
-									update=":formPrincipal:panelResultadosId" />
+									update="formPrincipal:panelResultadosId" />
 							</f:facet>
 
 							<h:outputText value="Resultados:" />
@@ -65,7 +60,7 @@
 								<h:commandLink
 									action="#{buscadorControlador.obtenerDocumentos(seccion)}"
 									value="#{seccion.nombreSec}"
-									update=":formPrincipal:panelResultadosId" />
+									update="formPrincipal:panelResultadosId" />
 							</f:facet>
 
 							<h:outputText value="Resultados:" />
@@ -87,7 +82,7 @@
 						<center>
 							<p:lightBox iframe="true" id="lighbox3">
 								<h:outputLink
-									value="http://localhost:8181/leyes/#{documento.rutaDoc}"
+									value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{documento.rutaDoc}#page=#{documento.pagina}"
 									title="#{documento.tituloDoc}">
 									<h:graphicImage style="width:60%;"
 										value="../css/images/pdf.png" alt="ver" title="Ver Documento" />
@@ -135,7 +130,7 @@
 				</p:dataTable>
 			</p:panel>
 		</h:form>
-	</ui:define>
+	
 </ui:composition>
 
 

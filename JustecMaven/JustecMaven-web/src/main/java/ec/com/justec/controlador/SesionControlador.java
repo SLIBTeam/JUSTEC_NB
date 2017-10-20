@@ -15,6 +15,7 @@ public class SesionControlador extends BaseControlador implements Serializable {
 	
 	private String nombreUsuario;
 	private boolean logueoCorrecto;
+	private String identificacionUsuario;
 
 	
 	@PostConstruct
@@ -24,7 +25,8 @@ public class SesionControlador extends BaseControlador implements Serializable {
 	
 	public void cerrarSesion() {
 		logueoCorrecto = false;
-		redireccionarPagina("/faces/paginas/principal.xhtml");
+		getHttpRequest().getSession().invalidate();
+		redireccionarPagina("/faces/paginas/login.xhtml");
 	}
 
 	public String getNombreUsuario() {
@@ -43,6 +45,14 @@ public class SesionControlador extends BaseControlador implements Serializable {
 
 	public void setLogueoCorrecto(boolean logueoCorrecto) {
 		this.logueoCorrecto = logueoCorrecto;
+	}
+
+	public String getIdentificacionUsuario() {
+		return identificacionUsuario;
+	}
+
+	public void setIdentificacionUsuario(String identificacionUsuario) {
+		this.identificacionUsuario = identificacionUsuario;
 	}
 
 	

@@ -105,6 +105,15 @@ public class Documento implements Serializable {
     @JoinColumn(name = "CODIGO_PAIS", referencedColumnName = "CODIGO_PAIS")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Pais codigoPais;
+    
+    @Transient
+    private Integer pagina;
+    
+    @Transient
+    private String rutaTemp;
+    
+    @Transient
+    private Boolean existePalabra = Boolean.FALSE;
 
     public Documento() {
     }
@@ -237,6 +246,30 @@ public class Documento implements Serializable {
         this.codigoPais = codigoPais;
     }
 
+
+	public Integer getPagina() {
+		return pagina;
+	}
+
+	public void setPagina(Integer pagina) {
+		this.pagina = pagina;
+	}
+
+	public String getRutaTemp() {
+		return rutaTemp;
+	}
+
+	public void setRutaTemp(String rutaTemp) {
+		this.rutaTemp = rutaTemp;
+	}
+
+	public Boolean getExistePalabra() {
+		return existePalabra;
+	}
+
+	public void setExistePalabra(Boolean existePalabra) {
+		this.existePalabra = existePalabra;
+	}
 
 	@Override
     public int hashCode() {

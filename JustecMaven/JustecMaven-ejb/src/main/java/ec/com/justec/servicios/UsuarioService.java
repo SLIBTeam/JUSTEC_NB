@@ -25,4 +25,8 @@ public class UsuarioService implements UsuarioServiceLocal {
     public Usuario obtenerPorNombre(String nombre) {
         return usuarioFacade.obtenerPorNombre(nombre);
     }
+    
+    public Usuario obtenerPorIdentificacion(String identificacion, String estado) {
+    	return usuarioFacade.obtenerPorIdentificacion(identificacion, estado);
+    }
 }

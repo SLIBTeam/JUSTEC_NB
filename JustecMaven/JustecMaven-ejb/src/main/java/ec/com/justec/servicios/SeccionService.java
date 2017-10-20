@@ -28,4 +28,9 @@ public class SeccionService implements SeccionServiceLocal {
     public List<Seccion> obtenerSeccionesActivas() {
         return seccionFacade.obtenerSeccionesActivas();
     }
+    
+    @Override
+    public Seccion obtenerXId(Integer id) {
+    	return seccionFacade.find(id);
+    }
 }

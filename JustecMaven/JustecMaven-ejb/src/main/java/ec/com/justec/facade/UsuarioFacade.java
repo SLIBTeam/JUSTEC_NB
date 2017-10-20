@@ -43,5 +43,20 @@ public class UsuarioFacade extends AbstractFacade<Usuario> implements UsuarioFac
             return (Usuario) q.getResultList().get(0);
         }
     }
+    
+    public Usuario obtenerPorIdentificacion(String identificacion, String estado) {
+    	Usuario usuario = null;
+    	try {
+    		Query q = em.createQuery("Select u from Usuario u where u.identificacionUs = :identificacion and u.estadoUs = :estado");
+            q.setParameter("identificacion", identificacion);
+            q.setParameter("estado", estado);
+            usuario = (Usuario) q.getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+			usuario = null;
+		}
+    	
+    	return usuario;
+    }
 
 }

@@ -11,4 +11,9 @@ public class Constantes {
 	public static final String ESTILO_DEFECTO_SUB_MENU_VERTICAL = "button-menu-style";
 	public static final String FOLDER_LEYES = "leyes";
 	public static final String FOLDER_SERVIDOR = "welcome-content";
+	
+	public static final int SIZE_MAX_FILE_UPLOAD = 2000000; //2MB
+	//TIPO ARCHIVO EXCEL
+	public static final String TIPO_ARCHIVO_EXCEL_ANTIGUO = "application/vnd.ms-excel";
+	public static final String TIPO_ARCHIVO_EXCEL_NUEVO = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
 }

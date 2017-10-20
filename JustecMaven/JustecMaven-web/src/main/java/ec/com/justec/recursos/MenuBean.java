@@ -7,11 +7,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.pdfbox.util.StringUtil;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -39,9 +37,9 @@ public class MenuBean implements Serializable{
     public void init(){
         //creating menu
     	menuModelVertical = new DefaultMenuModel();
-    	menuModelHorizontal = new DefaultMenuModel();
+    	//menuModelHorizontal = new DefaultMenuModel();
         generateMenu(menuModelVertical, true);
-        generateMenu(menuModelHorizontal, false);
+        //generateMenu(menuModelHorizontal, false);
     }
     
     
@@ -98,11 +96,17 @@ public class MenuBean implements Serializable{
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
     	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
-    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/buscador.xhtml", "ui-icon-star");
+    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-star");
     	items.add(item);
-    	item = new ItemMenuDTO("Buscar", "/faces/paginas/buscador.xhtml", "ui-icon-search");
+    	item = new ItemMenuDTO("Buscar", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-search");
     	items.add(item);
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
+    	menu.add(submenu);
+    	//tercer menu
+    	items  = new ArrayList<ItemMenuDTO>();
+    	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
+    	items.add(item);
+    	submenu = new SubMenuDTO("Indicadores normativas" , items);
     	menu.add(submenu);
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
@@ -110,24 +114,17 @@ public class MenuBean implements Serializable{
     	for(Seccion s : secciones)
     	{
     		try {
-    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/buscador.xhtml", "ui-icon-tag");
-            	items.add(item);
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec(), "ui-icon-tag");
+    			items.add(item);
 			} catch (Exception e) {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
     		
     	}
-    	submenu = new SubMenuDTO("Secciones" , items);
+    	submenu = new SubMenuDTO("Normativas" , items);
     	menu.add(submenu);
-    	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
-    	item = new ItemMenuDTO("Ecuador", "/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-    	items.add(item);
-    	item = new ItemMenuDTO("Chile","/faces/paginas/buscador.xhtml", "ui-icon-radio-on");
-    	items.add(item);
-    	submenu = new SubMenuDTO("Países" , items);
-    	menu.add(submenu);
+    	
     	return menu;
     }
     

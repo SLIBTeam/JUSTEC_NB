@@ -26,9 +26,11 @@
 							</a>
 
 							<ul class="nk-nav nk-nav-right">
-								<li><a class="text-usuario-sesion">Bienvenido a JUSTEC
-										#{sesionControlador.nombreUsuario}</a></li>
-								<li><p:commandButton
+								<li> <h:outputLabel styleClass="text-usuario-sesion" value="Bienvenido a Justec
+										#{sesionControlador.nombreUsuario}" />
+								</li>
+								<li>
+								<p:commandButton
 										action="#{sesionControlador.cerrarSesion()}"
 										value="Cerrar sesión" styleClass="text-boton-menu-interno">
 									</p:commandButton></li>

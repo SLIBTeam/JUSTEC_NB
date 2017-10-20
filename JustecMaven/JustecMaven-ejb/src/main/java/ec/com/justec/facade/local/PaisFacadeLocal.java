@@ -30,4 +30,7 @@ public interface PaisFacadeLocal {
 
     int count();
     
+    public Pais obtenerPorCodigoUnico(String codigoUnicoPais);
+    
+    public List<Pais> listarPaisesPorCodigoIndicador(Integer codigoIndicador, String estado);
 }

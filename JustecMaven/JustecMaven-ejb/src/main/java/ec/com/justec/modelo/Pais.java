@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -46,8 +47,14 @@ public class Pais implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "NOMBRE_PAIS")
     private String nombrePais;
+    
+    @Column(name = "COD_PAIS")
+    private String codigoUnicoPais;
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoPais", fetch = FetchType.LAZY)
     private List<Documento> documentoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pais", fetch = FetchType.LAZY)
+    private List<IndicadorValores> indicadorValoresList;
 
     public Pais() {
     }
@@ -77,6 +84,7 @@ public class Pais implements Serializable {
         this.nombrePais = nombrePais;
     }
 
+    
     public List<Documento> getDocumentoList() {
         return documentoList;
     }
@@ -111,5 +119,22 @@ public class Pais implements Serializable {
     public String toString() {
         return "ec.com.justec.modelo.Pais[ codigoPais=" + codigoPais + " ]";
     }
+
+    @XmlTransient
+	public List<IndicadorValores> getIndicadorValoresList() {
+		return indicadorValoresList;
+	}
+
+	public void setIndicadorValoresList(List<IndicadorValores> indicadorValoresList) {
+		this.indicadorValoresList = indicadorValoresList;
+	}
+
+	public String getCodigoUnicoPais() {
+		return codigoUnicoPais;
+	}
+
+	public void setCodigoUnicoPais(String codigoUnicoPais) {
+		this.codigoUnicoPais = codigoUnicoPais;
+	}
     
 }

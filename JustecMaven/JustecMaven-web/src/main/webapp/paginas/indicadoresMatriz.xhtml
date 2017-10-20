@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<!-- 	<ui:define name="titulo"> -->
+
+<!-- 	</ui:define> -->
+<!-- 	<ui:define name="contenido2"> -->
+		<h:form id="formPrincipalIndicadorMatriz">
+			<div class="nk-gap"></div>
+			<h5>NORMATIVA: #{indicadorControlador.seccion.nombreSec}</h5>
+
+			<div class="nk-gap-1"></div>
+
+
+			<p:accordionPanel id="acordionIndicadores" dynamic="true"
+				cache="true" value="#{indicadorControlador.indicadores}"
+				activeIndex="-" var="indicador"
+				style="border-right:1px solid #C0C0C0; border-left:1px solid #C0C0C0">
+				<p:ajax event="tabChange" process="@this"
+					listener="#{indicadorControlador.cargarValoresIndicador(indicador)}"
+					update="tabGlobal:formPrincipalIndicadorMatriz:acordionIndicadores" />
+				<p:tab title="#{indicador.nombreIndicador}">
+					<div class="nk-gap"></div>
+					<h:panelGrid columns="2"
+						columnClasses="width15-rigth-padding, width90" style="width:100%">
+						<h:outputText value="Definici&#243;n:" style="font-weight: bold" />
+						<h:outputText value="#{indicador.definicionIndicador}" />
+
+						<h:outputText value="Fuente:" style="font-weight: bold" />
+						<h:outputText value="#{indicador.fuenteIndicador}" />
+
+						<h:outputText value="Unidad de medida:" style="font-weight: bold" />
+						<h:outputText value="#{indicador.unidadMedidaIndicador}" />
+					</h:panelGrid>
+
+					<div class="nk-gap"></div>
+					<h:panelGroup id="groupIndicadores">
+						<h:panelGroup
+							rendered="#{indicadorControlador.paisesIndicador.size()==0}">
+							<div class="nk-gap"></div>
+							<div class="alert-info">
+								<h:outputLabel style="padding-right:1%"
+									value="No se han cargado valores para el indicador:" />
+								<h:outputLabel style="text-transform: uppercase;font-weight:bold;"
+									value="&#34;#{indicador.nombreIndicador}&#34;" />
+							</div>
+						</h:panelGroup>
+						<h:panelGroup
+							rendered="#{indicadorControlador.paisesIndicador.size()>0}">
+							<p:dataTable id="tbValoresIndicador" var="pais"
+								value="#{indicadorControlador.paisesIndicador}" reflow="true"
+								emptyMessage="No existen resutlados">
+								<p:column headerText="Pa&#237;s">
+									<h:outputText value="#{pais.nombrePais}" />
+								</p:column>
+
+								<p:columns var="anio"
+									value="#{indicadorControlador.aniosIndicador}">
+									<f:facet name="header">
+										<h:outputText value="#{anio}" />
+									</f:facet>
+									<center>
+										<h:outputText
+											value="#{indicadorControlador.valorIndicadorPorPaisAnio(indicador, pais, anio)}" />
+									</center>
+								</p:columns>
+
+							</p:dataTable>
+						</h:panelGroup>
+
+						<h:panelGroup rendered="#{indicadorControlador.lineModel != null}">
+							<div class="nk-gap"></div>
+							<p:chart type="line" model="#{indicadorControlador.lineModel}"
+								style="height:300px;" />
+							<div class="nk-gap"></div>
+						</h:panelGroup>
+					</h:panelGroup>
+
+				</p:tab>
+			</p:accordionPanel>
+
+
+		</h:form>
+<!-- 	</ui:define> -->
+</ui:composition>
+
+
