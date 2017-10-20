@@ -13,8 +13,10 @@ import javax.inject.Named;
 
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.BarChartModel;
 import org.primefaces.model.chart.CategoryAxis;
 import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.LegendPlacement;
 import org.primefaces.model.chart.LineChartModel;
 
 import ec.com.justec.enumeradores.EstadoEnum;
@@ -53,6 +55,7 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
 	private List<IndicadorValores> valoresIndicador;
 	private List<Pais> paisesIndicador;
 	private LineChartModel lineModel;
+	private BarChartModel barModel;
 	
 	
 	@PostConstruct
@@ -75,11 +78,13 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
 	
 	public void cargarValoresIndicador(Indicador indicador) {
 		lineModel = null;
+		barModel = null;
 		valoresIndicador = indicadorValoresServiceLocal.listarvaloresPorCodigoIndicador(indicador.getCodigoIndicador(), EstadoEnum.ACTIVO.getValor());
 		paisesIndicador = paisServiceLocal.listarPaisesPorCodigoIndicador(indicador.getCodigoIndicador(), EstadoEnum.ACTIVO.getValor());
 		aniosIndicador = indicadorValoresServiceLocal.listarAniosPorCodigoIndicador(indicador.getCodigoIndicador(), EstadoEnum.ACTIVO.getValor());
 		if(!valoresIndicador.isEmpty()) {
 			crearModeloLineal(indicador);
+			//createModeloBarras(indicador);
 		}
 	}
 	
@@ -102,8 +107,9 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
 
 	private void crearModeloLineal(Indicador indicador) {
         lineModel = generarGraficoLineal(indicador);
-        lineModel.setTitle("Gráfico de indicadores");
-        lineModel.setLegendPosition("e");
+        lineModel.setTitle("Gráfico del indicador");
+        lineModel.setLegendPosition("s");
+        lineModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
         //lineModel.setShowPointLabels(true);
         lineModel.getAxes().put(AxisType.X, new CategoryAxis("Años"));
         Axis yAxis = lineModel.getAxis(AxisType.Y);
@@ -111,9 +117,37 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
         yAxis.setMax(getMaximoMinimoValordeIndicador(valoresIndicador,true));
     }
 	
+	private void createModeloBarras(Indicador indicador) {
+        barModel = generarGraficoBarras(indicador);
+         
+        barModel.setTitle("Gráfico del indicador");
+        barModel.setLegendPosition("s");
+        barModel.setLegendPlacement(LegendPlacement.OUTSIDEGRID);
+         
+        Axis xAxis = barModel.getAxis(AxisType.X);
+        xAxis.setLabel("Años");
+         
+        Axis yAxis = barModel.getAxis(AxisType.Y);
+        yAxis.setMin(getMaximoMinimoValordeIndicador(valoresIndicador,false));
+        yAxis.setMax(getMaximoMinimoValordeIndicador(valoresIndicador,true));
+    }
+	
 
 	private LineChartModel generarGraficoLineal(Indicador indicador) {
 		LineChartModel model = new LineChartModel();
+		for (Pais pais : paisesIndicador) {
+			ChartSeries paisGraficoLinea = new ChartSeries();
+			for (Integer anio : aniosIndicador) {
+				paisGraficoLinea.setLabel(pais.getNombrePais());
+				paisGraficoLinea.set(anio, valorIndicadorPorPaisAnio(indicador, pais, anio));
+			}
+			model.addSeries(paisGraficoLinea);
+		}
+		return model;
+	}
+	
+	private BarChartModel generarGraficoBarras(Indicador indicador) {
+		BarChartModel model = new BarChartModel();
 		for (Pais pais : paisesIndicador) {
 			ChartSeries paisGraficoLinea = new ChartSeries();
 			for (Integer anio : aniosIndicador) {
@@ -188,6 +222,14 @@ public class IndicadorControlador extends BaseControlador implements Serializabl
 
 	public void setLineModel(LineChartModel lineModel) {
 		this.lineModel = lineModel;
+	}
+
+	public BarChartModel getBarModel() {
+		return barModel;
+	}
+
+	public void setBarModel(BarChartModel barModel) {
+		this.barModel = barModel;
 	}
 
 }

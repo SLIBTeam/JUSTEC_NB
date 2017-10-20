@@ -74,7 +74,9 @@
 						<h:panelGroup rendered="#{indicadorControlador.lineModel != null}">
 							<div class="nk-gap"></div>
 							<p:chart type="line" model="#{indicadorControlador.lineModel}"
-								style="height:300px;" />
+								style="height:400px;" responsive="true" />
+							<!-- <p:chart type="bar" model="#{indicadorControlador.barModel}"
+								style="height:300px;" responsive="true" /> -->
 							<div class="nk-gap"></div>
 						</h:panelGroup>
 					</h:panelGroup>
