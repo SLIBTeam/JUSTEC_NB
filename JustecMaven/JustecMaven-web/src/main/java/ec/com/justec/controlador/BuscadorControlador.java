@@ -84,6 +84,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 	private Boolean mostrarPais = Boolean.FALSE;
 	private String urlPdf;
 	private Integer seccionId;
+	private boolean iniciadaBusqueda;
 
 	@EJB
 	private SeccionServiceLocal seccionService;
@@ -122,6 +123,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 	public void buscar() {
 		try {
+			iniciadaBusqueda = true;
 			System.out.println("seccionId: "+seccionId);
 			mostrarDocumentos = Boolean.FALSE;
 			mostrarSecciones = Boolean.FALSE;
@@ -496,6 +498,14 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 	public void setUrlPdf(String urlPdf) {
 		this.urlPdf = urlPdf;
+	}
+
+	public boolean isIniciadaBusqueda() {
+		return iniciadaBusqueda;
+	}
+
+	public void setIniciadaBusqueda(boolean iniciadaBusqueda) {
+		this.iniciadaBusqueda = iniciadaBusqueda;
 	}
 
 }

@@ -165,7 +165,8 @@ body {
     text-align: left;
 }
 .button-style{
-    background: #252525 !important;
+    /*background: #252525 !important;*/
+    background: #516673 !important;
     text-shadow: none !important;
     color: #fff;
     font-weight: normal;
@@ -173,6 +174,7 @@ body {
     border-color: #252525;
     border-radius: 0px;
     padding: 5px;
+    box-shadow:none;
 }
 
 @media screen and (min-width : 991px){
@@ -258,4 +260,62 @@ body {
 }
 .padding-left-5{
 	padding-left: 5%;
+}
+.contenedor-nuevo{
+	padding: 20px;
+}
+
+.contenedor-busqueda-principal{
+	width: 100%;
+	padding: 100px;
+}
+
+.input-lg {
+    height: 46px;
+    padding: 10px 16px;
+    font-size: 16px;
+    line-height: 1.3333333;
+    border-radius: 6px;
+}
+
+.input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.search .search-text {
+    border-color: #6a8ecf;
+    height: 42px;
+    padding: 10px 12px;
+    border-radius: 4px;
+    border-width: 2px 0 2px 2px;
+}
+
+.search .search-text.input-lg {
+    height: 46px;
+}
+.title-nemesis{
+	font-size: 16px;
+    color: #2B3860;
+    vertical-align: bottom !important;
+    text-align: center;
+}
+.palabras-resaltadas-title-nemesis{
+	font-size: 19px;
+    font-weight: bold;
+    margin-top: -3px;
+    margin-left: 3px;
+    margin-right: 3px;
+}
+
+.title-page{
+	padding: 10px 0px 15px 10px;
+}
+.link-indicadores{
+	display: inline-flex;
+	color: #212529;
+	text-decoration: none;
 }

@@ -2,22 +2,326 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	template="/plantillas/contenedorEstadisticas.xhtml"
+	template="/plantillas/contenedor.xhtml"
 	xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 	<ui:define name="titulo">
         Buscador
     </ui:define>
 	<ui:define name="contenido">
-		<p:tabView id="tabGlobal">
-			<p:tab title="Buscador">
-				<ui:include src="/paginas/buscador.xhtml" />
-			</p:tab>
-			<p:tab title="Indicadores"
-				rendered="#{buscadorControlador.seccionId != null}">
-				<ui:include src="/paginas/indicadoresMatriz.xhtml" />
-			</p:tab>
-		</p:tabView>
+		<h:form id="formPrincipalIndicadorMatriz">
+			<div class="wrapper wrapper-content ">
+				<div class="title-page">
+					<h5>NORMATIVA: #{indicadorControlador.seccion.nombreSec}</h5>
+				</div>
+
+				<div class="row">
+					<div class="col-lg-7">
+						<div class="nk-gap-2"></div>
+					</div>
+					<div class="col-lg-5" style="display: flex; padding-right: 26px;">
+						<p:inputText value="#{buscadorControlador.palabraBuscada}"
+							style="width:80%; margin-right:10px" styleClass="form-control"
+							alt="PALABRA A BUSCAR"
+							placeholder="Ingrese una palabra para iniciar la búsqueda en la normativa..." />
+						<p:commandButton value="Buscar"
+							styleClass="btn btn-sm btn-primary" icon="fa fa-search"
+							action="#{buscadorControlador.buscar()}"
+							update="formPrincipalIndicadorMatriz:groupBusquedaInterna" />
+					</div>
+
+				</div>
+
+				<div class="row">
+					<div class="col-lg-2">
+						<div class="project-manager">
+							<div class="nk-gap"></div>
+							<h6>Relacionado</h6>
+							<div>
+								<ul class="list-unstyled project-files">
+									<li><a><i class="fa fa-tag" style="padding-right: 5px"></i>Adaptación</a></li>
+									<li><a><i class="fa fa-tag" style="padding-right: 5px"></i>Bancos
+											de genes “in situ” </a></li>
+									<li><a><i class="fa fa-tag" style="padding-right: 5px"></i>Colecciones
+											biológicas</a></li>
+									<li><a><i class="fa fa-tag" style="padding-right: 5px"></i>Desarrollo
+											sostenible </a></li>
+								</ul>
+							</div>
+
+							<div class="nk-gap"></div>
+							<h6>Indicadores</h6>
+							<ul class="list-unstyled project-files">
+								<p:repeat var="indicador"
+									value="#{indicadorControlador.indicadores}">
+									<li><a class="link-indicadores"
+										href="#{request.contextPath}/faces/paginas/tabPrincipal.xhtml?seccionId=#{buscadorControlador.seccionId}"><i
+											class="fa fa-bar-chart-o"
+											style="padding-right: 5px; padding-top: 6px;"></i>#{indicador.nombreIndicador}</a></li>
+								</p:repeat>
+							</ul>
+						</div>
+
+					</div>
+					<div class="col-lg-10">
+						<h:panelGroup id="groupBusquedaInterna">
+							<h:panelGroup rendered="#{!buscadorControlador.iniciadaBusqueda}">
+								<div class="wrapper wrapper-content ">
+									<div class="ibox float-e-margins">
+										<div class="ibox-title">
+											<h5>
+												<h:outputLabel value="Detalle del indicador" />
+											</h5>
+										</div>
+										<div class="ibox-content">
+											<div class="row">
+												<div class="col-lg-12">
+													<p:accordionPanel id="acordionIndicadores" dynamic="true"
+														cache="true" value="#{indicadorControlador.indicadores}"
+														activeIndex="-" var="indicador"
+														style="border-right:1px solid #C0C0C0; border-left:1px solid #C0C0C0">
+														<p:ajax event="tabChange" process="@this"
+															listener="#{indicadorControlador.cargarValoresIndicador(indicador)}"
+															update="formPrincipalIndicadorMatriz:acordionIndicadores" />
+														<p:tab title="#{indicador.nombreIndicador}">
+															<div class="nk-gap"></div>
+															<h:panelGrid columns="2"
+																columnClasses="width15-rigth-padding, width90"
+																style="width:100%">
+																<h:outputText value="Definici&#243;n:"
+																	style="font-weight: bold" />
+																<h:outputText value="#{indicador.definicionIndicador}" />
+
+																<h:outputText value="Fuente:" style="font-weight: bold" />
+																<h:outputText value="#{indicador.fuenteIndicador}" />
+
+																<h:outputText value="Unidad de medida:"
+																	style="font-weight: bold" />
+																<h:outputText value="#{indicador.unidadMedidaIndicador}" />
+															</h:panelGrid>
+
+															<div class="nk-gap"></div>
+															<h:panelGroup id="groupIndicadores">
+																<h:panelGroup
+																	rendered="#{indicadorControlador.paisesIndicador.size()==0}">
+																	<div class="nk-gap"></div>
+																	<div class="alert-info">
+																		<h:outputLabel style="padding-right:1%"
+																			value="No se han cargado valores para el indicador:" />
+																		<h:outputLabel
+																			style="text-transform: uppercase;font-weight:bold;"
+																			value="&#34;#{indicador.nombreIndicador}&#34;" />
+																	</div>
+																</h:panelGroup>
+																<h:panelGroup
+																	rendered="#{indicadorControlador.paisesIndicador.size()>0}">
+																	<p:dataTable id="tbValoresIndicador" var="pais"
+																		value="#{indicadorControlador.paisesIndicador}"
+																		reflow="true" emptyMessage="No existen resutlados">
+																		<p:column headerText="Pa&#237;s">
+																			<h:outputText value="#{pais.nombrePais}" />
+																		</p:column>
+
+																		<p:columns var="anio"
+																			value="#{indicadorControlador.aniosIndicador}">
+																			<f:facet name="header">
+																				<h:outputText value="#{anio}" />
+																			</f:facet>
+																			<center>
+																				<h:outputText
+																					value="#{indicadorControlador.valorIndicadorPorPaisAnio(indicador, pais, anio)}" />
+																			</center>
+																		</p:columns>
+
+																	</p:dataTable>
+																</h:panelGroup>
+
+																<h:panelGroup
+																	rendered="#{indicadorControlador.lineModel != null}">
+																	<div class="nk-gap"></div>
+																	<p:chart type="line"
+																		model="#{indicadorControlador.lineModel}"
+																		style="height:400px;" responsive="true" />
+																	<!-- <p:chart type="bar" model="#{indicadorControlador.barModel}"
+								style="height:300px;" responsive="true" /> -->
+																	<div class="nk-gap"></div>
+																</h:panelGroup>
+															</h:panelGroup>
+
+														</p:tab>
+													</p:accordionPanel>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+							<h:panelGroup rendered="#{buscadorControlador.iniciadaBusqueda}">
+								<div class="wrapper wrapper-content ">
+									<div class="ibox float-e-margins">
+										<div class="ibox-title">
+											<h5>
+												<h:outputLabel value="Información de búsqueda" />
+											</h5>
+										</div>
+										<div class="ibox-content">
+											<div class="row">
+
+												<div class="col-md-4">
+													<p:inputText value="#{buscadorControlador.palabraBuscada}"
+														styleClass="form-control" alt="PALABRA A BUSCAR"
+														placeholder="Ingrese una palabra para iniciar la búsqueda..." />
+												</div>
+												<div class="col-md-6">
+													<p:commandButton value="Buscar"
+														styleClass="btn btn-sm btn-primary" icon="fa fa-search"
+														action="#{buscadorControlador.buscar()}"
+														update="formPrincipalIndicadorMatriz:groupBusquedaInterna" />
+												</div>
+
+
+												<div class="col-md-12">
+													<div class="nk-gap-2"></div>
+													<p:commandButton value="Regresar"
+														styleClass="btn btn-sm btn-primary"
+														icon="fa fa-arrow-left"
+														action="#{buscadorControlador.regresar()}"
+														update="formPrincipalIndicadorMatriz:groupBusquedaInterna"
+														rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}" />
+													<div class="nk-gap"></div>
+												</div>
+
+
+												<div class="col-md-12">
+													<p:carousel
+														value="#{buscadorControlador.paisesEncontrados}"
+														headerText="Resultado" var="pais"
+														itemStyle="text-align:center" responsive="true"
+														rendered="#{buscadorControlador.mostrarPais}">
+														<center>
+															<p:panelGrid columns="2"
+																style="width:100%;margin:10px 0px"
+																columnClasses="label,value" layout="grid"
+																styleClass="ui-panelgrid-blank">
+																<f:facet name="header">
+																	<h:commandLink
+																		action="#{buscadorControlador.obtenerSecciones(pais)}"
+																		value="#{pais.nombrePais}"
+																		update="formPrincipalIndicadorMatriz:groupBusquedaInterna" />
+																</f:facet>
+
+																<h:outputText value="Resultados:" />
+																<h:outputText
+																	value="#{buscadorControlador.resultadosPaisMap.get(pais)}" />
+															</p:panelGrid>
+														</center>
+
+														<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.paisesEncontrados.size()} paises.
+                    </f:facet>
+													</p:carousel>
+												</div>
+												<div class="col-md-12">
+
+
+													<p:carousel
+														value="#{buscadorControlador.seccionesEncontradas}"
+														headerText="Resultado" var="seccion"
+														itemStyle="text-align:center" responsive="true"
+														rendered="#{buscadorControlador.mostrarSecciones}">
+														<center>
+															<p:panelGrid columns="2"
+																style="width:100%;margin:10px 0px"
+																columnClasses="label,value" layout="grid"
+																styleClass="ui-panelgrid-blank">
+																<f:facet name="header">
+																	<h:commandLink
+																		action="#{buscadorControlador.obtenerDocumentos(seccion)}"
+																		value="#{seccion.nombreSec}"
+																		update="formPrincipalIndicadorMatriz:groupBusquedaInterna" />
+																</f:facet>
+
+																<h:outputText value="Resultados:" />
+																<h:outputText
+																	value="#{buscadorControlador.resultadoSeccionesMap.get(seccion)}" />
+															</p:panelGrid>
+														</center>
+
+														<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.seccionesEncontradas.size()} secciones.
+                    </f:facet>
+													</p:carousel>
+												</div>
+												<div class="col-md-12">
+
+													<p:dataTable var="documento"
+														value="#{buscadorControlador.documentosEncontrados}"
+														rendered="#{buscadorControlador.mostrarDocumentos}"
+														reflow="true" rows="5" paginator="true"
+														emptyMessage="No existen resutlados">
+														<p:column>
+															<center>
+																<p:lightBox iframe="true" id="lighbox3">
+																	<h:outputLink
+																		value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{documento.rutaDoc}#page=#{documento.pagina}"
+																		title="#{documento.tituloDoc}">
+																		<h:graphicImage style="width:60%;"
+																			value="../css/images/pdf.png" alt="ver"
+																			title="Ver Documento" />
+																	</h:outputLink>
+																</p:lightBox>
+															</center>
+														</p:column>
+														<p:column>
+															<h:commandLink
+																action="#{buscadorControlador.descargarArchivo(documento)}">
+																<center>
+																	<h:graphicImage style="width:60%;"
+																		value="../css/images/pdf.png" alt="Descargar"
+																		title="Descargar Documento" />
+																</center>
+															</h:commandLink>
+														</p:column>
+
+														<p:column headerText="Titulo">
+															<h:outputText value="#{documento.tituloDoc}" />
+														</p:column>
+
+														<p:column headerText="Materia">
+															<h:outputText value="#{documento.codigoMat.nombreMat}" />
+														</p:column>
+
+														<p:column headerText="Tipo Norma">
+															<h:outputText value="#{documento.codigoTn.nombreTn}" />
+														</p:column>
+
+														<p:column headerText="No.">
+															<h:outputText value="#{documento.numeroDoc}" />
+														</p:column>
+
+														<p:column headerText="Tipo Pub.">
+															<h:outputText value="#{documento.codigoTp.nombreTp}" />
+														</p:column>
+
+														<p:column headerText="Fecha Firma">
+															<h:outputText value="#{documento.fechaFirmaDoc}" />
+														</p:column>
+
+														<p:column headerText="Fecha Pub.">
+															<h:outputText value="#{documento.fechaPublicacionDoc}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+					</div>
+				</div>
+			</div>
+		</h:form>
 	</ui:define>
 </ui:composition>
 

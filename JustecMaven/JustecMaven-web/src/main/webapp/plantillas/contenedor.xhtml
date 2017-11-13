@@ -57,24 +57,18 @@
 
 </h:head>
 
-<body style="background-color: #ebebeb">
+<body style="background-color: #ECF0F4">
 
 	<ui:insert name="menu">
 		<ui:include src="/plantillas/menuInterno.xhtml" />
 	</ui:insert>
 
 
-	<div class="nk-main">
+	<div class="nk-main" style="background-color: #ECF0F4">
 
 		<!-- CONTENEDOR -->
 		<div class="row vertical-gap">
-			<div class="col-lg-2"
-				style="padding-left: 1%; background: #404a4e !important;">
-				<ui:insert name="menu">
-					<ui:include src="/plantillas/menuLateral.xhtml" />
-				</ui:insert>
-			</div>
-			<div class="col-lg-10">
+			<div class="col-lg-12">
 				<!-- PANEL DE ESTADO  -->
 				<p:ajaxStatus onstart="PF('statusDialog').show()"
 					onsuccess="PF('statusDialog').hide()" />
@@ -86,30 +80,26 @@
 				<!-- FIN PANEL DE ESTADO  -->
 				<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
 					closable="true" />
-				<div class="container">
-					<div class="nk-gap"></div>
-					<div class="nk-blog-isotope ">
-						<div class="nk-isotope-item">
-							<div class="nk-blog-post">
-								<div class="nk-post-text">
-									<p:panel style="border:none !important;margin:0px;padding:0px">
-										<ui:insert name="contenido">
-											<h:outputText value="Contenido de la p&#255;gina" />
-										</ui:insert>
-									</p:panel>
-
-								</div>
-							</div>
-						</div>
-					</div>
-
-				</div>
+					<div
+				style="padding-left: 1%; background: #77A2BB !important;">
+				<ui:insert name="menu">
+					<ui:include src="/plantillas/menuLateral.xhtml" />
+				</ui:insert>
+			</div>
+			
+			<div >
+			<ui:insert name="contenido">
+				<h:outputText value="Contenido de la p&#255;gina" />
+			</ui:insert>
+		</div>
+			
+				
 			</div>
 		</div>
 		<!-- FIN CONTENEDOR -->
-
+<div class="nk-gap-1"></div>
 		<ui:insert name="pie">
-			<ui:include src="/plantillas/pieInterno.xhtml" />
+			<ui:include src="/plantillas/pieInternoPrincipal.xhtml" />
 		</ui:insert>
 
 	</div>

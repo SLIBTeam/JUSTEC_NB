@@ -96,18 +96,18 @@ public class MenuBean implements Serializable{
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
     	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
-    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-star");
+    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/buscadorPrincipal.xhtml", "ui-icon-star");
     	items.add(item);
-    	item = new ItemMenuDTO("Buscar", "/faces/paginas/tabPrincipal.xhtml", "ui-icon-search");
+    	item = new ItemMenuDTO("Búsqueda general", "/faces/paginas/buscadorPrincipal.xhtml", "ui-icon-search");
     	items.add(item);
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
     	menu.add(submenu);
     	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
+    	/*items  = new ArrayList<ItemMenuDTO>();
     	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
     	items.add(item);
     	submenu = new SubMenuDTO("Indicadores normativas" , items);
-    	menu.add(submenu);
+    	menu.add(submenu);*/
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
     	List<Seccion> secciones = seccionService.obtenerSeccionesActivas();

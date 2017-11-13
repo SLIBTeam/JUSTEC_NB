@@ -10,31 +10,30 @@
 <body>
 	<ui:composition>
 		<style>
-.ui-widget-content a {
-	color: #A9A9A9;
-}
+		
+
 .ui-menu .ui-menuitem-link {
 	display: flex !important;
+	color:aliceblue;
 }
 .ui-menu .ui-menuitem-link .ui-menuitem-icon, .ui-menu .ui-submenu-icon {
 	display: inline-table !important;
+	margin-right: 10px;
+	background-color: aliceblue;
 }
 .ui-menu .ui-menu-parent .ui-menu-child {
 	background: #404a4e !important;
 }
 
+
+.ui-menuitem-icon .ui-icon .ui-icon-tag{
+	background-color: #C4CDD6;
+}
+
 </style>
 		<h:form>
-			<div class="verticalmenu">
-			<!-- <p:menubar model="#{menuBean.menuModelHorizontal}" styleClass="button-style" /> -->
-			<p:commandButton id="dynaButton"  type="button" icon="fa fa-bars"  styleClass="button-style" style="width: 60px;height: 40px;box-shadow:none"/>
+			<p:commandButton id="dynaButton"  type="button" icon="fa fa-bars"  styleClass="button-style" style="height: 40px;box-shadow:none" value="MENÚ"/>
 			<p:menu overlay="true" trigger="dynaButton" my="left top" at="right top" model="#{menuBean.menuModelVertical}" styleClass="button-style" toggleable="true" style="width:50%"/> 
-			</div>
-
-			<div class="horizontalmenu">
-			<p:menu model="#{menuBean.menuModelVertical}" styleClass="button-style" toggleable="true" style="width:107%"/>
-			</div>
-
 		</h:form>
 	</ui:composition>
 </body>

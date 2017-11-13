@@ -64,7 +64,7 @@ public class LoginControlador extends BaseControlador implements Serializable {
             sesionControlador.setNombreUsuario(userSecurity.getNombreCompleto());
             sesionControlador.setIdentificacionUsuario(userSecurity.getUsername());
     		sesionControlador.setLogueoCorrecto(true);
-    		redireccionarPagina("/faces/paginas/tabPrincipal.xhtml");
+    		redireccionarPagina("/faces/paginas/buscadorPrincipal.xhtml");
 		} catch (BadCredentialsException e) {
 			logueoIncorrecto = true;
 			mensajeNoLogueo = "Credenciales incorrectas. Por favor verifique.";

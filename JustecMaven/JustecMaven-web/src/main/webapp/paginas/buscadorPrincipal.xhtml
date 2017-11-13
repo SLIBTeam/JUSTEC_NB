@@ -1,0 +1,216 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	template="/plantillas/contenedor.xhtml">
+	<ui:define name="titulo">
+        Buscador
+    </ui:define>
+	<ui:define name="contenido">
+
+		<h:form id="formPrincipal">
+
+			<h:panelGroup id="buscadorPrincipal">
+				<h:panelGroup rendered="#{!buscadorControlador.iniciadaBusqueda}">
+					<div class="contenedor-nuevo" align="center">
+						<div style="width: 50%">
+							<p:graphicImage value="/css/images/logo_nemesis.png" width="60%" />
+							<h:panelGrid columns="1" styleClass="title-nemesis">
+								<h:panelGroup>
+									<h:outputLabel value="Economía" />
+									<h:outputLabel value="colaborativa"
+										styleClass="palabras-resaltadas-title-nemesis" />
+									<h:outputLabel value="mediante el uso de nuevas" />
+									<h:outputLabel value="tecnologías"
+										styleClass="palabras-resaltadas-title-nemesis" />
+								</h:panelGroup>
+							</h:panelGrid>
+							<div class="nk-gap-1"></div>
+							<div class="input-group">
+								<p:inputText value="#{buscadorControlador.palabraBuscada}"
+									styleClass="form-control input-lg search-text"
+									alt="PALABRA A BUSCAR"
+									placeholder="Ingrese una palabra para iniciar la búsqueda..." />
+								<p:commandButton value="BUSCAR" styleClass="button-style"
+									action="#{buscadorControlador.buscar()}"
+									update="formPrincipal:buscadorPrincipal" />
+							</div>
+						</div>
+					</div>
+					<div class="nk-gap-2"></div>
+				</h:panelGroup>
+
+				<h:panelGroup rendered="#{buscadorControlador.iniciadaBusqueda}">
+					<div class="wrapper wrapper-content ">
+						<div class="title-page">
+							<h5>BÚSQUEDA GENERAL</h5>
+						</div>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="wrapper wrapper-content ">
+									<div class="ibox float-e-margins">
+										<div class="ibox-title">
+											<h5>
+												<h:outputLabel value="Información de búsqueda" />
+											</h5>
+										</div>
+										<div class="ibox-content">
+											<div class="row">
+												<div class="col-md-4">
+													<p:inputText value="#{buscadorControlador.palabraBuscada}"
+														styleClass="form-control" alt="PALABRA A BUSCAR"
+														placeholder="Ingrese una palabra para iniciar la búsqueda..." />
+												</div>
+												<div class="col-md-6">
+													<p:commandButton value="Buscar"
+														styleClass="btn btn-sm btn-primary" icon="fa fa-search"
+														action="#{buscadorControlador.buscar()}"
+														update="formPrincipal:buscadorPrincipal" />
+												</div>
+
+
+												<div class="col-md-12">
+													<div class="nk-gap-2"></div>
+													<p:commandButton value="Regresar"
+														styleClass="btn btn-sm btn-primary"
+														icon="fa fa-arrow-left"
+														action="#{buscadorControlador.regresar()}"
+														update="formPrincipal:buscadorPrincipal"
+														rendered="#{buscadorControlador.mostrarDocumentos or buscadorControlador.mostrarSecciones}" />
+													<div class="nk-gap"></div>
+												</div>
+
+
+												<div class="col-md-12">
+													<p:carousel
+														value="#{buscadorControlador.paisesEncontrados}"
+														headerText="Resultado" var="pais"
+														itemStyle="text-align:center" responsive="true"
+														rendered="#{buscadorControlador.mostrarPais}">
+														<center>
+															<p:panelGrid columns="2"
+																style="width:100%;margin:10px 0px"
+																columnClasses="label,value" layout="grid"
+																styleClass="ui-panelgrid-blank">
+																<f:facet name="header">
+																	<h:commandLink
+																		action="#{buscadorControlador.obtenerSecciones(pais)}"
+																		value="#{pais.nombrePais}"
+																		update="formPrincipal:buscadorPrincipal" />
+																</f:facet>
+
+																<h:outputText value="Resultados:" />
+																<h:outputText
+																	value="#{buscadorControlador.resultadosPaisMap.get(pais)}" />
+															</p:panelGrid>
+														</center>
+
+														<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.paisesEncontrados.size()} paises.
+                    </f:facet>
+													</p:carousel>
+												</div>
+												<div class="col-md-12">
+
+
+													<p:carousel
+														value="#{buscadorControlador.seccionesEncontradas}"
+														headerText="Resultado" var="seccion"
+														itemStyle="text-align:center" responsive="true"
+														rendered="#{buscadorControlador.mostrarSecciones}">
+														<center>
+															<p:panelGrid columns="2"
+																style="width:100%;margin:10px 0px"
+																columnClasses="label,value" layout="grid"
+																styleClass="ui-panelgrid-blank">
+																<f:facet name="header">
+																	<h:commandLink
+																		action="#{buscadorControlador.obtenerDocumentos(seccion)}"
+																		value="#{seccion.nombreSec}"
+																		update="formPrincipal:buscadorPrincipal" />
+																</f:facet>
+
+																<h:outputText value="Resultados:" />
+																<h:outputText
+																	value="#{buscadorControlador.resultadoSeccionesMap.get(seccion)}" />
+															</p:panelGrid>
+														</center>
+
+														<f:facet name="footer">
+                        Se ha obtenido resultados en #{buscadorControlador.seccionesEncontradas.size()} secciones.
+                    </f:facet>
+													</p:carousel>
+												</div>
+												<div class="col-md-12">
+
+													<p:dataTable var="documento"
+														value="#{buscadorControlador.documentosEncontrados}"
+														rendered="#{buscadorControlador.mostrarDocumentos}"
+														reflow="true" rows="5" paginator="true"
+														emptyMessage="No existen resutlados">
+														<p:column>
+															<center>
+																<p:lightBox iframe="true" id="lighbox3">
+																	<h:outputLink
+																		value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{documento.rutaDoc}#page=#{documento.pagina}"
+																		title="#{documento.tituloDoc}">
+																		<h:graphicImage style="width:60%;"
+																			value="../css/images/pdf.png" alt="ver"
+																			title="Ver Documento" />
+																	</h:outputLink>
+																</p:lightBox>
+															</center>
+														</p:column>
+														<p:column>
+															<h:commandLink
+																action="#{buscadorControlador.descargarArchivo(documento)}">
+																<center>
+																	<h:graphicImage style="width:60%;"
+																		value="../css/images/pdf.png" alt="Descargar"
+																		title="Descargar Documento" />
+																</center>
+															</h:commandLink>
+														</p:column>
+
+														<p:column headerText="Titulo">
+															<h:outputText value="#{documento.tituloDoc}" />
+														</p:column>
+
+														<p:column headerText="Materia">
+															<h:outputText value="#{documento.codigoMat.nombreMat}" />
+														</p:column>
+
+														<p:column headerText="Tipo Norma">
+															<h:outputText value="#{documento.codigoTn.nombreTn}" />
+														</p:column>
+
+														<p:column headerText="No.">
+															<h:outputText value="#{documento.numeroDoc}" />
+														</p:column>
+
+														<p:column headerText="Tipo Pub.">
+															<h:outputText value="#{documento.codigoTp.nombreTp}" />
+														</p:column>
+
+														<p:column headerText="Fecha Firma">
+															<h:outputText value="#{documento.fechaFirmaDoc}" />
+														</p:column>
+
+														<p:column headerText="Fecha Pub.">
+															<h:outputText value="#{documento.fechaPublicacionDoc}" />
+														</p:column>
+													</p:dataTable>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:form>
+	</ui:define>
+</ui:composition>
