@@ -86,7 +86,6 @@
         </dependency>
 		<!-- fin de dependencias para reporte en excel -->
 
-
 	</dependencies>
 
 	<build>

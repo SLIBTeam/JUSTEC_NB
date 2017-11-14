@@ -39,12 +39,11 @@ public class MenuBean implements Serializable{
     	secciones = new ArrayList<Seccion>();
         //creating menu
     	menuModelVertical = new DefaultMenuModel();
-    	//menuModelHorizontal = new DefaultMenuModel();
+    	menuModelHorizontal = new DefaultMenuModel();
         generateMenu(menuModelVertical, true);
-        //generateMenu(menuModelHorizontal, false);
+        generateMenu(menuModelHorizontal, false);
         
     }
-    
     
     /**
      * Método que genera un menú PrimeFaces a partir de un menú guardado por roles
@@ -52,7 +51,7 @@ public class MenuBean implements Serializable{
      * @param esVertical
      */
     public void generateMenu(MenuModel menuModel, boolean esVertical) {
-    	List<SubMenuDTO> menuGuardado = menuQuemado();
+    	List<SubMenuDTO> menuGuardado = (esVertical)?menuQuemado():menuQuemadoHorizontal();
     	for (SubMenuDTO subMenuDTO : menuGuardado) {
     		generarSubMenu(menuModel, subMenuDTO, esVertical);
 		}
@@ -66,13 +65,19 @@ public class MenuBean implements Serializable{
      */
     public void generarSubMenu(MenuModel menuModel, SubMenuDTO subMenuDTO, boolean esVertical) {
     	DefaultSubMenu submenu = new DefaultSubMenu(((subMenuDTO.getValor()!=null && !subMenuDTO.getValor().isEmpty())?subMenuDTO.getValor():Constantes.NOMBRE_DEFECTO_SUB_MENU));
-    	for (ItemMenuDTO itemMenuDTO : subMenuDTO.getItems()) {
-    		submenu.addElement(generarMenuItem(itemMenuDTO, esVertical));
+    	if(subMenuDTO.getItems()!=null) {
+    		for (ItemMenuDTO itemMenuDTO : subMenuDTO.getItems()) {
+        		submenu.addElement(generarMenuItem(itemMenuDTO, esVertical));
+    		}
+    		if(esVertical) {
+        		submenu.setStyleClass(Constantes.ESTILO_DEFECTO_SUB_MENU_VERTICAL);
+        	}
+        	menuModel.addElement(submenu);
+    	}else {
+    		menuModel.addElement(generarMenuItem(subMenuDTO, esVertical));
 		}
-    	if(esVertical) {
-    		submenu.setStyleClass(Constantes.ESTILO_DEFECTO_SUB_MENU_VERTICAL);
-    	}
-    	menuModel.addElement(submenu);
+    	
+    	
     }
     
     /**
@@ -91,6 +96,17 @@ public class MenuBean implements Serializable{
     	return itemMenu;
     }
     
+    public DefaultMenuItem generarMenuItem(SubMenuDTO item, boolean esVertical) {
+    	DefaultMenuItem itemMenu = new DefaultMenuItem(((item.getValor()!=null && !item.getValor().isEmpty())?item.getValor():Constantes.NOMBRE_DEFECTO_ITEM_MENU), 
+    			((item.getIcono()!=null && !item.getIcono().isEmpty())?item.getIcono():Constantes.ICONO_DEFECTO_MENU), 
+    			((item.getUrl()!=null && !item.getUrl().isEmpty())?item.getUrl():Constantes.PAGINA_DEFECTO_MENU));
+    	if(esVertical) {
+    		itemMenu.setStyleClass(Constantes.ESTILO_DEFECTO_ITEM_MENU_VERTICAL);
+    	}
+    	return itemMenu;
+    }
+    
+    
     /**
      * Método para generar un menú quemado
      * @return lista de objetos SubMenuDTO
@@ -99,25 +115,23 @@ public class MenuBean implements Serializable{
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
     	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
-    	ItemMenuDTO item = new ItemMenuDTO("Favoritos", "/faces/paginas/buscadorPrincipal.xhtml", "ui-icon-star");
+    	ItemMenuDTO item = new ItemMenuDTO("Búsqueda general", "/faces/paginas/buscadorPrincipal.xhtml", "fa fa-search");
     	items.add(item);
-    	item = new ItemMenuDTO("Búsqueda general", "/faces/paginas/buscadorPrincipal.xhtml", "ui-icon-search");
-    	items.add(item);
-    	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
+    	SubMenuDTO submenu = new SubMenuDTO("Inicio" , items);
     	menu.add(submenu);
     	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
+    	/*items  = new ArrayList<ItemMenuDTO>();
     	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
     	items.add(item);
-    	submenu = new SubMenuDTO("Indicadores normativas" , items);
-    	menu.add(submenu);
+    	submenu = new SubMenuDTO("Administración" , items);
+    	menu.add(submenu);*/
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
     	secciones = seccionService.obtenerSeccionesActivas();
     	for(Seccion s : secciones)
     	{
     		try {
-    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec()+"&initialCharge=true&generatedCodeIndi=0", "ui-icon-tag");
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec()+"&initialCharge=true&generatedCodeIndi=0", "fa fa-book");
     			items.add(item);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -128,6 +142,34 @@ public class MenuBean implements Serializable{
     	submenu = new SubMenuDTO("Normativas" , items);
     	menu.add(submenu);
     	
+    	return menu;
+    }
+    
+    public List<SubMenuDTO> menuQuemadoHorizontal() {
+    	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
+    	//List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
+    	//primer menu
+    	SubMenuDTO submenu = new SubMenuDTO("Inicio" , "/faces/paginas/buscadorPrincipal.xhtml", "fa fa-home");
+    	menu.add(submenu);
+    	//tercer menu
+    	/*items  = new ArrayList<ItemMenuDTO>();
+    	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
+    	items.add(item);
+    	submenu = new SubMenuDTO("Administración" , items);
+    	menu.add(submenu);*/
+    	//segundo menu
+    	secciones = seccionService.obtenerSeccionesActivas();
+    	for(Seccion s : secciones)
+    	{
+    		try {
+    			submenu = new SubMenuDTO(s.getNombreCorto() , "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec()+"&initialCharge=true&generatedCodeIndi=0", "fa fa-book");
+    			menu.add(submenu);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+    		
+    	}
     	return menu;
     }
     

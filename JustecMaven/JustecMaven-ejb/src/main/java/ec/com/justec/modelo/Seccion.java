@@ -66,6 +66,9 @@ public class Seccion implements Serializable {
     private List<Documento> documentoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoSec", fetch = FetchType.LAZY)
     private List<Indicador> indicadorList;
+    
+    @Column(name = "nombre_corto")
+    private String nombreCorto;
 
     public Seccion() {
     }
@@ -154,6 +157,14 @@ public class Seccion implements Serializable {
 
 	public void setIndicadorList(List<Indicador> indicadorList) {
 		this.indicadorList = indicadorList;
+	}
+
+	public String getNombreCorto() {
+		return nombreCorto;
+	}
+
+	public void setNombreCorto(String nombreCorto) {
+		this.nombreCorto = nombreCorto;
 	}
     
 }

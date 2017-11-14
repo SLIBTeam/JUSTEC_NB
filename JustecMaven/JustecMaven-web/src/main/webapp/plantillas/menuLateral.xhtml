@@ -10,30 +10,54 @@
 <body>
 	<ui:composition>
 		<style>
-		
-
 .ui-menu .ui-menuitem-link {
 	display: flex !important;
-	color:aliceblue;
+	color: aliceblue;
 }
-.ui-menu .ui-menuitem-link .ui-menuitem-icon, .ui-menu .ui-submenu-icon {
+
+.ui-menu .ui-menuitem-link .ui-menuitem-icon, .ui-menu .ui-submenu-icon
+	{
 	display: inline-table !important;
 	margin-right: 10px;
 	background-color: aliceblue;
 }
+
 .ui-menu .ui-menu-parent .ui-menu-child {
 	background: #404a4e !important;
+	width: auto;
 }
 
-
-.ui-menuitem-icon .ui-icon .ui-icon-tag{
+.ui-menuitem-icon .ui-icon .ui-icon-tag {
 	background-color: #C4CDD6;
+}
+
+.ui-menubar .ui-menu-parent{
+	border-right: #516673 1px solid !important;
+	border-radius: 0px !important;
+	background-color: lightslategray;
+}
+
+.ui-menubar .ui-menu-list .ui-menuitem {
+    border: 0;
+    border-right: aliceblue 1px solid;
+    border-radius: 0px;
+    padding: 0px 7px 0px 7px;
 }
 
 </style>
 		<h:form>
-			<p:commandButton id="dynaButton"  type="button" icon="fa fa-bars"  styleClass="button-style" style="height: 40px;box-shadow:none" value="MENÚ"/>
-			<p:menu overlay="true" trigger="dynaButton" my="left top" at="right top" model="#{menuBean.menuModelVertical}" styleClass="button-style" toggleable="true" style="width:50%"/> 
+			<div class="verticalmenu">
+				<p:commandButton id="dynaButton" type="button" icon="fa fa-bars"
+					styleClass="button-style" style="height: 40px;box-shadow:none"
+					value="MENÚ" />
+				<p:menu overlay="true" trigger="dynaButton" my="left top"
+					at="right top" model="#{menuBean.menuModelVertical}"
+					styleClass="button-style" toggleable="true" style="width:50%" />
+			</div>
+			<div class="horizontalmenu">
+				<p:menubar model="#{menuBean.menuModelHorizontal}" 
+					styleClass="button-style" /> 
+			</div>
 		</h:form>
 	</ui:composition>
 </body>
