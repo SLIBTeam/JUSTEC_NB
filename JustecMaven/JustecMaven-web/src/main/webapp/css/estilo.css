@@ -153,7 +153,9 @@ body {
 .width15-rigth-padding {     
 	width: 15%;
     text-align: right;
-    padding-right: 2%; }
+    padding-right: 2%; 
+    vertical-align: top;
+    font-size:13px;}
 .width90{ width: 90%;}
 
 .errors{border: 1px dotted #BB0000; color: #BB0000; padding: 15px 50px 15px; }
@@ -318,4 +320,113 @@ body {
 	display: inline-flex;
 	color: #212529;
 	text-decoration: none;
+}
+
+/*ESTILOS DE NAVEGACION CAT NAV*/
+.div-menu-normativas{
+	background: #D3D3D3 !important;
+    padding-bottom: 1px;
+}
+#catnav {
+	padding:0; 
+	margin:0;
+	background:#F5F5DC;
+	font-size:10px;
+	border:1px solid #ddd;
+	font-weight:normal;
+	}
+
+#catnav ul { 
+	margin:0; 
+	padding:0; 
+	list-style:none; 
+	line-height:1; 
+	margin:0;
+	border-left:1px solid #fff;
+	}
+
+#catnav ul a  {
+	position:relative; 
+	display:block; 
+	z-index:100; 
+	padding:5px 10px; 
+	line-height:24px; 
+	text-decoration:none;
+	color:#333;
+	border:1px solid #ddd;
+	}
+
+#catnav ul li  { 
+	float:left; 
+	width: auto;
+	border-right:1px solid #fff; 
+	border-bottom: 1px solid #fff;;
+	}
+
+#catnav ul a:hover {
+	color:#000;
+	background:#fff;
+	font-weight:normal;
+	}
+
+#catnav ul ul  { 
+	position: absolute; 
+	left: -999em; 
+	width: 222px; 
+	z-index:99999;
+	border:0;
+	border-bottom: 1px solid #ddd;
+	margin-left:-2px;
+	}
+
+#catnav ul ul a  {
+	width:200px; 
+	border: 1px solid #ddd;
+	border-bottom:0;
+	background:#f5f5f5;
+	line-height:24px;
+	}
+
+#catnav ul ul a:hover  {}
+
+#catnav ul ul ul  {
+	border-top:0;
+	margin: -35px 0 0 221px; 
+	}
+
+#catnav ul li li { 
+	margin:0;
+	border:0;
+	}
+
+#catnav ul li:hover,
+#catnav ul li.hover  { 
+	position:static;
+	}
+
+#catnav ul li:hover ul ul, 
+#catnav ul li.sfhover ul ul,
+#catnav ul li:hover ul ul ul, 
+#catnav ul li.sfhover ul ul ul,
+#catnav ul li:hover ul ul ul ul, 
+#catnav ul li.sfhover ul ul ul ul { 
+	left:-999em; 
+	}
+
+#catnav ul li:hover ul, 
+#catnav ul li.sfhover ul,
+#catnav ul li li:hover ul, 
+#catnav ul li li.sfhover ul,
+#catnav ul li li li:hover ul, 
+#catnav ul li li li.sfhover ul,
+#catnav ul li li li li:hover ul, 
+#catnav ul li li li li.sfhover ul { 
+	left:auto; 
+	}
+/*FIN ESTILOS DE NAVEGACION CAT NAV*/
+
+.contenedor-informacion-indicador{
+	padding-right: 15px; 
+	padding-left:15px; 
+	font-size:13px;
 }

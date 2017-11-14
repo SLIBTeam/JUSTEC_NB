@@ -55,7 +55,7 @@
 								<p:repeat var="indicador"
 									value="#{indicadorControlador.indicadores}">
 									<li><a class="link-indicadores"
-										href="#{request.contextPath}/faces/paginas/tabPrincipal.xhtml?seccionId=#{buscadorControlador.seccionId}"><i
+										href="#{request.contextPath}/faces/paginas/tabPrincipal.xhtml?seccionId=#{buscadorControlador.seccionId}&#38;initialCharge=false&#38;generatedCodeIndi=#{indicador.codigoGeneradoIndicador}"><i
 											class="fa fa-bar-chart-o"
 											style="padding-right: 5px; padding-top: 6px;"></i>#{indicador.nombreIndicador}</a></li>
 								</p:repeat>
@@ -63,99 +63,125 @@
 						</div>
 
 					</div>
+					
+					<!-- PANEL DE INDICADORES -->
 					<div class="col-lg-10">
 						<h:panelGroup id="groupBusquedaInterna">
-							<h:panelGroup rendered="#{!buscadorControlador.iniciadaBusqueda}">
+							<h:panelGroup
+								rendered="#{!buscadorControlador.iniciadaBusqueda and indicadorControlador.indicador !=null}">
 								<div class="wrapper wrapper-content ">
 									<div class="ibox float-e-margins">
 										<div class="ibox-title">
 											<h5>
-												<h:outputLabel value="Detalle del indicador" />
+												<h:outputLabel value="Información" />
 											</h5>
 										</div>
 										<div class="ibox-content">
 											<div class="row">
 												<div class="col-lg-12">
-													<p:accordionPanel id="acordionIndicadores" dynamic="true"
-														cache="true" value="#{indicadorControlador.indicadores}"
-														activeIndex="-" var="indicador"
-														style="border-right:1px solid #C0C0C0; border-left:1px solid #C0C0C0">
-														<p:ajax event="tabChange" process="@this"
-															listener="#{indicadorControlador.cargarValoresIndicador(indicador)}"
-															update="formPrincipalIndicadorMatriz:acordionIndicadores" />
-														<p:tab title="#{indicador.nombreIndicador}">
+													<div class="contenedor-informacion-indicador">
+														<div class="nk-gap"></div>
+														<h:panelGrid columns="2"
+															columnClasses="width15-rigth-padding, width90"
+															style="width:100%">
+															<h:outputText value="Indicador:"
+																style="font-weight: bold" />
+															<h:outputText
+																value="#{indicadorControlador.indicador.nombreIndicador}"
+																style="text-transform: uppercase;font-weight: bold" />
+
+															<h:outputText value="Definici&#243;n:"
+																style="font-weight: bold" />
+															<h:outputText
+																value="#{indicadorControlador.indicador.definicionIndicador}" />
+
+															<h:outputText value="Fuente:" style="font-weight: bold" />
+															<h:outputText
+																value="#{indicadorControlador.indicador.fuenteIndicador}" />
+
+															<h:outputText value="Unidad de medida:"
+																style="font-weight: bold" />
+															<h:outputText
+																value="#{indicadorControlador.indicador.unidadMedidaIndicador}" />
 															<div class="nk-gap"></div>
-															<h:panelGrid columns="2"
-																columnClasses="width15-rigth-padding, width90"
-																style="width:100%">
-																<h:outputText value="Definici&#243;n:"
-																	style="font-weight: bold" />
-																<h:outputText value="#{indicador.definicionIndicador}" />
+															<h:panelGroup><div class="nk-gap"></div></h:panelGroup>
+															<h:outputText value="Tipo de gráfico:"
+																style="font-weight: bold" />
+															<h:selectOneRadio value="#{indicadorControlador.opcionGrafico}" layout="pageDirection" styleClass="iradio_square-green">
+																<f:selectItems value="#{indicadorControlador.tiposGrafico}" var="tipo" itemLabel="#{tipo.nombre}" itemValue="#{tipo.opcion}"/>
+   																<p:ajax event="change" listener="#{indicadorControlador.crearModeloGrafico()}" update="grupoGraficos"></p:ajax>
+															</h:selectOneRadio>
+														</h:panelGrid>
 
-																<h:outputText value="Fuente:" style="font-weight: bold" />
-																<h:outputText value="#{indicador.fuenteIndicador}" />
-
-																<h:outputText value="Unidad de medida:"
-																	style="font-weight: bold" />
-																<h:outputText value="#{indicador.unidadMedidaIndicador}" />
-															</h:panelGrid>
-
-															<div class="nk-gap"></div>
-															<h:panelGroup id="groupIndicadores">
-																<h:panelGroup
-																	rendered="#{indicadorControlador.paisesIndicador.size()==0}">
-																	<div class="nk-gap"></div>
-																	<div class="alert-info">
-																		<h:outputLabel style="padding-right:1%"
-																			value="No se han cargado valores para el indicador:" />
-																		<h:outputLabel
-																			style="text-transform: uppercase;font-weight:bold;"
-																			value="&#34;#{indicador.nombreIndicador}&#34;" />
-																	</div>
-																</h:panelGroup>
-																<h:panelGroup
-																	rendered="#{indicadorControlador.paisesIndicador.size()>0}">
-																	<p:dataTable id="tbValoresIndicador" var="pais"
-																		value="#{indicadorControlador.paisesIndicador}"
-																		reflow="true" emptyMessage="No existen resutlados">
-																		<p:column headerText="Pa&#237;s">
-																			<h:outputText value="#{pais.nombrePais}" />
-																		</p:column>
-
-																		<p:columns var="anio"
-																			value="#{indicadorControlador.aniosIndicador}">
-																			<f:facet name="header">
-																				<h:outputText value="#{anio}" />
-																			</f:facet>
-																			<center>
-																				<h:outputText
-																					value="#{indicadorControlador.valorIndicadorPorPaisAnio(indicador, pais, anio)}" />
-																			</center>
-																		</p:columns>
-
-																	</p:dataTable>
-																</h:panelGroup>
-
-																<h:panelGroup
-																	rendered="#{indicadorControlador.lineModel != null}">
-																	<div class="nk-gap"></div>
-																	<p:chart type="line"
-																		model="#{indicadorControlador.lineModel}"
-																		style="height:400px;" responsive="true" />
-																	<!-- <p:chart type="bar" model="#{indicadorControlador.barModel}"
-								style="height:300px;" responsive="true" /> -->
-																	<div class="nk-gap"></div>
-																</h:panelGroup>
+														<div class="nk-gap"></div>
+														<h:panelGroup id="groupIndicadores">
+															<h:panelGroup
+																rendered="#{indicadorControlador.paisesIndicador.size()==0 and !indicadorControlador.activarGrafLineal and !indicadorControlador.activarGrafBarras}">
+																<div class="nk-gap"></div>
+																<div class="alert-info">
+																	<h:outputLabel style="padding-right:1%"
+																		value="No se han cargado valores para el indicador:" />
+																	<h:outputLabel
+																		style="text-transform: uppercase;font-weight:bold;"
+																		value="&#34;#{indicadorControlador.indicador.nombreIndicador}&#34;" />
+																</div>
 															</h:panelGroup>
+															<h:panelGroup
+																rendered="#{indicadorControlador.paisesIndicador.size()>0}">
+																<div class="col-lg-12" align="center">
+																<h:outputLabel value="Valores del indicador" style="color:#898989; font-size:15px; font-weight: 450;"/> 
+																<p:dataTable id="tbValoresIndicador" var="pais"
+																	value="#{indicadorControlador.paisesIndicador}"
+																	reflow="true" emptyMessage="No existen resultados">
+																	<p:column headerText="Pa&#237;s">
+																		<h:outputText value="#{pais.nombrePais}" />
+																	</p:column>
 
-														</p:tab>
-													</p:accordionPanel>
+																	<p:columns var="anio"
+																		value="#{indicadorControlador.aniosIndicador}">
+																		<f:facet name="header">
+																			<h:outputText value="#{anio}" />
+																		</f:facet>
+																		<center>
+																			<h:outputText
+																				value="#{indicadorControlador.valorIndicadorPorPaisAnio(indicadorControlador.indicador, pais, anio)}" />
+																		</center>
+																	</p:columns>
+
+																</p:dataTable>
+																</div> 
+															</h:panelGroup>
+															
+															<h:panelGroup id="grupoGraficos">
+															<h:panelGroup
+																rendered="#{indicadorControlador.activarGrafLineal or indicadorControlador.activarGrafBarras}">
+																<div class="col-lg-12" align="center">
+																<div class="nk-gap"></div>
+																<h:panelGroup rendered="#{indicadorControlador.activarGrafLineal}">
+																<p:chart type="line"
+																	model="#{indicadorControlador.lineModel}"
+																	style="height:400px;" responsive="true" />
+																</h:panelGroup>
+																<h:panelGroup rendered="#{indicadorControlador.activarGrafBarras}">
+																<p:chart type="bar"
+																	model="#{indicadorControlador.barModel}"
+																	style="height:300px;" responsive="true" />
+																</h:panelGroup>
+																<div class="nk-gap"></div>
+																</div>
+															</h:panelGroup>
+															</h:panelGroup>
+														</h:panelGroup>
+													</div>
 												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</h:panelGroup>
+							
+							<!-- PANEL DE BUSQUEDA -->
+							
 							<h:panelGroup rendered="#{buscadorControlador.iniciadaBusqueda}">
 								<div class="wrapper wrapper-content ">
 									<div class="ibox float-e-margins">

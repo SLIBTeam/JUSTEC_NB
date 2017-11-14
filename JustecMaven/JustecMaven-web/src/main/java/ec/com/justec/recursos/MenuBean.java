@@ -30,16 +30,19 @@ public class MenuBean implements Serializable{
 	private static final long serialVersionUID = -3170588724362450437L;
 	private MenuModel menuModelVertical;
 	private MenuModel menuModelHorizontal;
+	private List<Seccion> secciones;
 	@EJB
 	private SeccionServiceLocal seccionService;
     
     @PostConstruct
     public void init(){
+    	secciones = new ArrayList<Seccion>();
         //creating menu
     	menuModelVertical = new DefaultMenuModel();
     	//menuModelHorizontal = new DefaultMenuModel();
         generateMenu(menuModelVertical, true);
         //generateMenu(menuModelHorizontal, false);
+        
     }
     
     
@@ -103,18 +106,18 @@ public class MenuBean implements Serializable{
     	SubMenuDTO submenu = new SubMenuDTO("Búsqueda" , items);
     	menu.add(submenu);
     	//tercer menu
-    	/*items  = new ArrayList<ItemMenuDTO>();
+    	items  = new ArrayList<ItemMenuDTO>();
     	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "ui-icon-arrowthickstop-1-n");
     	items.add(item);
     	submenu = new SubMenuDTO("Indicadores normativas" , items);
-    	menu.add(submenu);*/
+    	menu.add(submenu);
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
-    	List<Seccion> secciones = seccionService.obtenerSeccionesActivas();
+    	secciones = seccionService.obtenerSeccionesActivas();
     	for(Seccion s : secciones)
     	{
     		try {
-    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec(), "ui-icon-tag");
+    			item = new ItemMenuDTO(StringUtils.capitalize(StringUtils.lowerCase(s.getNombreSec())), "/faces/paginas/tabPrincipal.xhtml?seccionId="+s.getCodigoSec()+"&initialCharge=true&generatedCodeIndi=0", "ui-icon-tag");
     			items.add(item);
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -149,5 +152,15 @@ public class MenuBean implements Serializable{
 
 	public void setMenuModelHorizontal(MenuModel menuModelHorizontal) {
 		this.menuModelHorizontal = menuModelHorizontal;
+	}
+
+
+	public List<Seccion> getSecciones() {
+		return secciones;
+	}
+
+
+	public void setSecciones(List<Seccion> secciones) {
+		this.secciones = secciones;
 	}
 }

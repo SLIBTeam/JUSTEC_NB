@@ -643,7 +643,8 @@ ul.clear-list:first-child {
 }
 
 .wrapper-content {
-    padding: 20px 10px 0px 10px
+    padding: 20px 10px 0px 10px;
+    font-size: 13px;
 }
 
 #page-wrapper {
@@ -2266,16 +2267,28 @@ table.dataTable thead .sorting:after {
 /* ELEMENTS */
 
 .breadcrumb {
-    background-color: #ffffff;
-    padding: 0;
-    margin-bottom: 0;
+    background-color: #ffffff !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    font-size:11px !important;
 }
+
+.breadcrumb>li {
+    display: inline-block !important;
+}
+
+.breadcrumb>li+li:before {
+    content: "/\00a0";
+    padding: 0 5px;
+    color: #ccc;
+}
+
 .breadcrumb > li a {
-    color: inherit;
+    color: inherit !important;
 }
 
 .breadcrumb > .active {
-    color: inherit;
+    color: inherit !important;
 }
 
 code {

@@ -31,7 +31,8 @@
 
 	<link rel="stylesheet"
 		href="#{request.contextPath}/assets/css/combined.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/css/font-awesome.min.css"/>
+	<link rel="stylesheet"
+		href="#{request.contextPath}/css/font-awesome.min.css" />
 
 	<!-- END: Styles -->
 
@@ -80,35 +81,32 @@
 				<!-- FIN PANEL DE ESTADO  -->
 				<p:messages globalOnly="true" showDetail="true" autoUpdate="true"
 					closable="true" />
-					<div
-				style="padding-left: 1%; background: #77A2BB !important;">
-				<ui:insert name="menu">
-					<ui:include src="/plantillas/menuLateral.xhtml" />
-				</ui:insert>
-			</div>
-			
-			<div >
-			<ui:insert name="contenido">
-				<h:outputText value="Contenido de la p&#255;gina" />
-			</ui:insert>
-		</div>
-			
-				
+				<div style="padding-left: 1%; background: #77A2BB !important;">
+					<ui:insert name="menu">
+						<ui:include src="/plantillas/menuLateral.xhtml" />
+					</ui:insert>
+				</div>
+				<div class="horizontalmenu div-menu-normativas">
+					<ui:insert name="menuNormativas">
+						<ui:include src="/plantillas/menuNormativas.xhtml" />
+					</ui:insert>
+				</div>
+				<div class="nk-gap"></div>
+				<div>
+					<ui:insert name="contenido">
+						<h:outputText value="Contenido de la p&#255;gina" />
+					</ui:insert>
+				</div>
+
+
 			</div>
 		</div>
 		<!-- FIN CONTENEDOR -->
-<div class="nk-gap-1"></div>
+		<div class="nk-gap-1"></div>
 		<ui:insert name="pie">
 			<ui:include src="/plantillas/pieInternoPrincipal.xhtml" />
 		</ui:insert>
-
 	</div>
-
-	<!-- START: Scripts -->
-
-	<!-- <script src="#{request.contextPath}/assets/js/combined.js"></script> -->
-
-	<!-- END: Scripts -->
 
 </body>
 
