@@ -85,6 +85,8 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 	private String urlPdf;
 	private Integer seccionId;
 	private boolean iniciadaBusqueda;
+	private boolean documentoPdf = Boolean.FALSE;
+	private Documento documentoTemp;
 
 	@EJB
 	private SeccionServiceLocal seccionService;
@@ -388,8 +390,18 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 		FacesContext.getCurrentInstance().responseComplete();
 	}
 
+	public void mostrarDocumento(Documento documento)
+	{
+		documentoTemp = documento;
+		documentoPdf = Boolean.TRUE;
+	}
+	
 	public void regresar() {
-		if (mostrarDocumentos) {
+		if(documentoPdf) {
+			mostrarDocumentos = Boolean.TRUE;
+			documentoPdf = Boolean.FALSE;
+		}
+		else if (mostrarDocumentos) {
 			mostrarDocumentos = Boolean.FALSE;
 			mostrarSecciones = Boolean.TRUE;
 			mostrarPais = Boolean.FALSE;
@@ -506,6 +518,22 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
 	public void setIniciadaBusqueda(boolean iniciadaBusqueda) {
 		this.iniciadaBusqueda = iniciadaBusqueda;
+	}
+
+	public boolean isDocumentoPdf() {
+		return documentoPdf;
+	}
+
+	public void setDocumentoPdf(boolean documentoPdf) {
+		this.documentoPdf = documentoPdf;
+	}
+
+	public Documento getDocumentoTemp() {
+		return documentoTemp;
+	}
+
+	public void setDocumentoTemp(Documento documentoTemp) {
+		this.documentoTemp = documentoTemp;
 	}
 
 }

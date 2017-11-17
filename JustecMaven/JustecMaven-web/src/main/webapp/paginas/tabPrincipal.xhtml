@@ -282,25 +282,25 @@
 
 													<p:dataTable var="documento"
 														value="#{buscadorControlador.documentosEncontrados}"
-														rendered="#{buscadorControlador.mostrarDocumentos}"
+														rendered="#{buscadorControlador.mostrarDocumentos and !buscadorControlador.documentoPdf}"
 														reflow="true" rows="5" paginator="true"
 														emptyMessage="No existen resutlados">
-														<p:column>
-															<center>
-																<p:lightBox iframe="true" id="lighbox3">
-																	<h:outputLink
-																		value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{documento.rutaDoc}#page=#{documento.pagina}"
-																		title="#{documento.tituloDoc}">
-																		<h:graphicImage style="width:60%;"
-																			value="../css/images/pdf.png" alt="ver"
-																			title="Ver Documento" />
-																	</h:outputLink>
-																</p:lightBox>
-															</center>
-														</p:column>
+<!-- 														<p:column> -->
+<!-- 															<center> -->
+<!-- 																<p:lightBox iframe="true" id="lighbox3"> -->
+<!-- 																	<h:outputLink -->
+<!-- 																		value="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{documento.rutaDoc}#page=#{documento.pagina}" -->
+<!-- 																		title="#{documento.tituloDoc}"> -->
+<!-- 																		<h:graphicImage style="width:60%;" -->
+<!-- 																			value="../css/images/pdf.png" alt="ver" -->
+<!-- 																			title="Ver Documento" /> -->
+<!-- 																	</h:outputLink> -->
+<!-- 																</p:lightBox> -->
+<!-- 															</center> -->
+<!-- 														</p:column> -->
 														<p:column>
 															<h:commandLink
-																action="#{buscadorControlador.descargarArchivo(documento)}">
+																action="#{buscadorControlador.mostrarDocumento(documento)}">
 																<center>
 																	<h:graphicImage style="width:60%;"
 																		value="../css/images/pdf.png" alt="Descargar"
@@ -337,6 +337,11 @@
 															<h:outputText value="#{documento.fechaPublicacionDoc}" />
 														</p:column>
 													</p:dataTable>
+												</div>
+												<div class="col-md-12" style="width: 100% !important; height: 1000px !important">
+													<h:panelGroup rendered="#{buscadorControlador.documentoPdf}">
+													    <iframe style="width: 100% !important; height: 100% !important" src="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{buscadorControlador.documentoTemp.rutaDoc}#page=#{buscadorControlador.documentoTemp.pagina}"></iframe>
+													</h:panelGroup>
 												</div>
 											</div>
 										</div>
