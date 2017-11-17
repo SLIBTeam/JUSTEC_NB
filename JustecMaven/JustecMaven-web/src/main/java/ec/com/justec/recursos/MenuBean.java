@@ -120,11 +120,11 @@ public class MenuBean implements Serializable{
     	SubMenuDTO submenu = new SubMenuDTO("Inicio" , items);
     	menu.add(submenu);
     	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
+    	/*items  = new ArrayList<ItemMenuDTO>();
     	item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "fa fa-upload");
     	items.add(item);
     	submenu = new SubMenuDTO("Administración" , items);
-    	menu.add(submenu);
+    	menu.add(submenu);*/
     	//segundo menu
     	items = new ArrayList<ItemMenuDTO>();
     	secciones = seccionService.obtenerSeccionesActivas();
@@ -147,16 +147,16 @@ public class MenuBean implements Serializable{
     
     public List<SubMenuDTO> menuQuemadoHorizontal() {
     	List<SubMenuDTO> menu = new ArrayList<SubMenuDTO>();
-    	List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
+    	//List<ItemMenuDTO> items = new ArrayList<ItemMenuDTO>();
     	//primer menu
     	SubMenuDTO submenu = new SubMenuDTO("Inicio" , "/faces/paginas/buscadorPrincipal.xhtml", "fa fa-home");
     	menu.add(submenu);
     	//tercer menu
-    	items  = new ArrayList<ItemMenuDTO>();
+    	/*items  = new ArrayList<ItemMenuDTO>();
     	ItemMenuDTO item = new ItemMenuDTO("Carga de indicadores", "/faces/paginas/indicadores.xhtml", "fa fa-upload");
     	items.add(item);
     	submenu = new SubMenuDTO("Administración" , items);
-    	menu.add(submenu);
+    	menu.add(submenu);*/
     	//segundo menu
     	secciones = seccionService.obtenerSeccionesActivas();
     	for(Seccion s : secciones)
