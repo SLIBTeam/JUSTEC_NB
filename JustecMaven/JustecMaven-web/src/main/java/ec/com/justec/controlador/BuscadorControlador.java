@@ -129,6 +129,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 			System.out.println("seccionId: "+seccionId);
 			mostrarDocumentos = Boolean.FALSE;
 			mostrarSecciones = Boolean.FALSE;
+			documentoPdf = Boolean.FALSE;
 			documentosEncontradosTotal = new ArrayList<Documento>();
 			seccionesEncontradas = new HashSet<Seccion>();
 			List<Documento> documentos = new ArrayList<>();
