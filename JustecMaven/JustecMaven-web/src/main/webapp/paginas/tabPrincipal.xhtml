@@ -338,11 +338,11 @@
 														</p:column>
 													</p:dataTable>
 												</div>
+												<h:panelGroup rendered="#{buscadorControlador.documentoPdf}">
 												<div class="col-md-12" style="width: 100% !important; height: 1000px !important">
-													<h:panelGroup rendered="#{buscadorControlador.documentoPdf}">
 													    <iframe style="width: 100% !important; height: 100% !important" src="http://#{buscadorControlador.externalContext.requestServerName}:#{buscadorControlador.externalContext.requestServerPort}/leyes/temp_#{buscadorControlador.documentoTemp.rutaDoc}#page=#{buscadorControlador.documentoTemp.pagina}"></iframe>
-													</h:panelGroup>
 												</div>
+												</h:panelGroup>
 											</div>
 										</div>
 									</div>

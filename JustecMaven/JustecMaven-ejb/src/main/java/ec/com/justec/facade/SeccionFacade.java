@@ -35,7 +35,7 @@ public class SeccionFacade extends AbstractFacade<Seccion> implements SeccionFac
 
     @Override
     public List<Seccion> obtenerSeccionesActivas() {
-        Query q = em.createQuery("Select s from Seccion s where s.estadoSec = :estado");
+        Query q = em.createQuery("Select s from Seccion s where s.estadoSec = :estado order by s.codigoSec asc");
         q.setParameter("estado", EstadoEnum.ACTIVO.getValor());
         return q.getResultList();
     }
