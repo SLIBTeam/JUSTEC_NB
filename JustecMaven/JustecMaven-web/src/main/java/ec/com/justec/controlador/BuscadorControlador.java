@@ -152,7 +152,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 						documentosEncontradosTotal.add(documento);
 						paisesEncontrados.add(documento.getCodigoPais());
 						seccionesEncontradas.add(documento.getCodigoSec());
-						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
+//						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
 					}
 				} catch (Exception e) {
 					System.out.println("ERROR");
@@ -164,7 +164,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 						seccionesEncontradas.add(documento.getCodigoSec());
 						org.pdfclown.files.File file = new org.pdfclown.files.File(Util.obtenerRutaDocumentos() + documento.getRutaDoc());
 						file.save(Util.obtenerRutaDocumentos() +"temp_"+ documento.getRutaDoc(),SerializationModeEnum.Incremental);
-						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
+//						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
 					}
 				}
 				
