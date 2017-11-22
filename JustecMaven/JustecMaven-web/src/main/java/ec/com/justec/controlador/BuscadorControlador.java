@@ -18,7 +18,10 @@ import ec.com.justec.servicios.local.SeccionServiceLocal;
 import ec.com.justec.util.Util;
 
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Serializable;
@@ -152,7 +155,17 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
 					}
 				} catch (Exception e) {
-					e.printStackTrace();
+					System.out.println("ERROR");
+					if(buscarPalabraEnDocumento(documento, palabraBuscada))
+					{
+						documento.setPagina(obtenerPaginaPDF(documento, palabraBuscada.toUpperCase()));
+						documentosEncontradosTotal.add(documento);
+						paisesEncontrados.add(documento.getCodigoPais());
+						seccionesEncontradas.add(documento.getCodigoSec());
+						org.pdfclown.files.File file = new org.pdfclown.files.File(Util.obtenerRutaDocumentos() + documento.getRutaDoc());
+						file.save(Util.obtenerRutaDocumentos() +"temp_"+ documento.getRutaDoc(),SerializationModeEnum.Incremental);
+						resultadoBusquedaService.crear(generarResultadoBusqueda(documento));
+					}
 				}
 				
 			}
@@ -171,7 +184,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 			PDDocument pdf = PDDocument.load(new File(Util.obtenerRutaDocumentos() + documento.getRutaDoc()));
 			String content = new PDFTextStripper().getText(pdf).toUpperCase();
 			pdf.close();
-			if (content.contains(palabra)) {
+			if (content.toUpperCase().contains(palabra.toUpperCase())) {
 				existePalabra = Boolean.TRUE;
 			}
 		} catch (Exception e) {
