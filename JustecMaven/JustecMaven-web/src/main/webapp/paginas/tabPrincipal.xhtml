@@ -48,7 +48,8 @@
 											sostenible </a></li>
 								</ul>
 							</div>
-
+							
+							<h:panelGroup rendered="#{indicadorControlador.indicadores.size() > 0}">
 							<div class="nk-gap"></div>
 							<h6>Indicadores</h6>
 							<ul class="list-unstyled project-files">
@@ -60,6 +61,7 @@
 											style="padding-right: 5px; padding-top: 6px;"></i>#{indicador.nombreIndicador}</a></li>
 								</p:repeat>
 							</ul>
+							</h:panelGroup>
 						</div>
 
 					</div>
