@@ -182,7 +182,7 @@
 							
 							<!-- PANEL DE BUSQUEDA -->
 							
-							<h:panelGroup rendered="#{buscadorControlador.iniciadaBusqueda}">
+							<h:panelGroup rendered="#{buscadorControlador.iniciadaBusqueda or indicadorControlador.indicadores.size() == 0}">
 								<div class="wrapper wrapper-content ">
 									<div class="ibox float-e-margins">
 										<div class="ibox-title">
