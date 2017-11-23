@@ -14,8 +14,10 @@
 			<h:panelGroup id="buscadorPrincipal">
 				<h:panelGroup rendered="#{!buscadorControlador.iniciadaBusqueda}">
 					<div class="contenedor-nuevo" align="center">
+						<div class="col-lg-12">
 						<div style="width: 50%">
 							<p:graphicImage value="/css/images/logo_inicial_justec.jpg" width="60%" />
+							</div>
 							<h:panelGrid columns="1" styleClass="title-nemesis">
 								<h:panelGroup>
 									<h:outputLabel value="Economía" />
@@ -26,16 +28,22 @@
 										styleClass="palabras-resaltadas-title-nemesis" />
 								</h:panelGroup>
 							</h:panelGrid>
-							<div class="nk-gap-1"></div>
-							<div class="input-group">
-								<p:inputText value="#{buscadorControlador.palabraBuscada}"
-									styleClass="form-control input-lg search-text"
-									alt="PALABRA A BUSCAR"
-									placeholder="Ingrese una palabra para iniciar la búsqueda..." />
-								<p:commandButton value="BUSCAR" styleClass="button-style"
-									action="#{buscadorControlador.buscar()}"
-									update="formPrincipal:buscadorPrincipal" />
+							<div class="nk-gap"></div>
+							<div class="col-lg-3"/>
+							<div class="col-lg-6">
+								<div class="col-lg-10 padding-principal-buscador">
+									<p:inputText value="#{buscadorControlador.palabraBuscada}"
+										styleClass="form-control input-lg search-text"
+										alt="PALABRA A BUSCAR"
+										placeholder="Ingrese una palabra para iniciar la búsqueda..." />
+								</div>
+								<div class="col-lg-2 padding-principal-buscador"  align="left">
+									<p:commandButton value="BUSCAR" styleClass="button-style" style="height: 45px"
+										action="#{buscadorControlador.buscar()}"
+										update="formPrincipal:buscadorPrincipal" />
+								</div>
 							</div>
+							<div class="col-lg-3"/>
 						</div>
 					</div>
 					<div class="nk-gap-2"></div>

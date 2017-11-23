@@ -430,3 +430,12 @@ body {
 	padding-left:15px; 
 	font-size:13px;
 }
+
+.background-principal{
+	background-image: url("../assets/images/home-10.png");
+}
+.padding-principal-buscador{
+	padding-left: 0px !important; 
+	padding-right: 0px !important;
+	padding-top: 10px !important;
+}

@@ -16,9 +16,11 @@
 				</div>
 
 				<div class="row">
+				<h:panelGroup rendered="#{indicadorControlador.indicadores.size() > 0}">
 					<div class="col-lg-7">
 						<div class="nk-gap-2"></div>
 					</div>
+					
 					<div class="col-lg-5" style="display: flex; padding-right: 26px;">
 						<p:inputText value="#{buscadorControlador.palabraBuscada}"
 							style="width:80%; margin-right:10px" styleClass="form-control"
@@ -29,6 +31,7 @@
 							action="#{buscadorControlador.buscar()}"
 							update="formPrincipalIndicadorMatriz:groupBusquedaInterna" />
 					</div>
+					</h:panelGroup>
 
 				</div>
 

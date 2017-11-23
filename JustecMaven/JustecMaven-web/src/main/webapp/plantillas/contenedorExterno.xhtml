@@ -31,7 +31,8 @@
 
 	<link rel="stylesheet"
 		href="#{request.contextPath}/assets/css/combined.css" />
-	<link rel="stylesheet" href="#{request.contextPath}/css/font-awesome.min.css"/>
+	<link rel="stylesheet"
+		href="#{request.contextPath}/css/font-awesome.min.css" />
 
 	<!-- END: Styles -->
 
@@ -56,21 +57,31 @@
 
 
 	<div class="nk-main">
+
 		<!-- START: Header Title -->
 		<div class="nk-header-title nk-header-title-full">
-			<div class="bg-image">
+			<!-- <div class="bg-image">
 				<div>
 					<img src="#{request.contextPath}/assets/images/home-10.png" />
 				</div>
 				<div class="bg-image-overlay"
 					style="background-color: rgba(12, 12, 12, 0.6);"></div>
+			</div> -->
+
+			<div class="bg-image">
+				<div class="background-principal"></div>
+				<div class="bg-image-overlay"
+					style="background-color: rgba(12, 12, 12, 0.5);"></div>
 			</div>
+
 			<div class="nk-header-table">
 				<div class="nk-header-table-cell">
 					<div class="container">
-
-						<h5 class="nk-title display-4 text-white">Economía colaborativa mediante el uso de nuevas tecnologías</h5>
+						<h5 class="nk-title display-4 text-white"
+							style="font-size: 3.0rem !important">Economía colaborativa
+							mediante el uso de nuevas tecnologías</h5>
 						<div class="nk-gap-6"></div>
+						<div class="nk-gap-4"></div>
 						<div class="nk-header-text text-white">
 							<div class="nk-gap-4"></div>
 						</div>
@@ -96,24 +107,37 @@
 		<div class="bg-white" id="about">
 			<div class="container">
 				<div class="row">
-					<div class="col-lg-8 offset-lg-2 text-xs-center">
-						<div class="nk-gap-4 mt-9"></div>
+					<div class="col-lg-12  text-xs-center">
+						<div class="nk-gap-3 mt-9"></div>
 
 						<h2 class="display-4">Somos</h2>
-						<div class="nk-gap mnt-5"></div>
+						<div class="nk-gap-2"></div>
 
 						<!-- <p>Facilitamos la mejor búsqueda sobre temas judiciales.
 						</p> -->
 
-						<img src="#{request.contextPath}/assets/images/somos-nemesis.png" />
+						<div class="col-lg-4">
+							<img
+								src="#{request.contextPath}/assets/images/somos-a-nemesis.png" />
+							<div class="nk-gap-2"></div>
+						</div>
+						<div class="col-lg-4">
+							<img
+								src="#{request.contextPath}/assets/images/somos-b-nemesis.png" />
+							<div class="nk-gap-2"></div>
+						</div>
+						<div class="col-lg-4">
+							<img
+								src="#{request.contextPath}/assets/images/somos-c-nemesis.png" />
+							<div class="nk-gap-2"></div>
+						</div>
 
-						<div class=" mt-2"></div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<!-- END: About Our Agency -->
-		
+
 		<!-- START: imagen agregada -->
 		<!-- <div class="nk-box bg-gray-1">
 			<div class="nk-gap-1"></div>
@@ -124,7 +148,6 @@
 			<div class="nk-gap-1"></div>
 		</div> -->
 		<!-- END: imagen agregada -->
-            
 
 		<ui:insert name="contacto">
 			<ui:include src="/plantillas/contacto.xhtml" />
