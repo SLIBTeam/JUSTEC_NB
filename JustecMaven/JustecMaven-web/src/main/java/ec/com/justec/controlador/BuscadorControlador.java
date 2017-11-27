@@ -135,6 +135,7 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 			documentoPdf = Boolean.FALSE;
 			documentosEncontradosTotal = new ArrayList<Documento>();
 			seccionesEncontradas = new HashSet<Seccion>();
+			paisesEncontrados = new HashSet<>();
 			List<Documento> documentos = new ArrayList<>();
 			if(seccionId != null)
 			{
@@ -205,61 +206,79 @@ public class BuscadorControlador extends BaseControlador implements Serializable
 
         for (final Page page : file.getDocument().getPages()) {
         	final int pag = pagina + 1;
-        	Map<Rectangle2D, List<ITextString>> textStrings = textExtractor.extract(page);
+        	try {
+        		Map<Rectangle2D, List<ITextString>> textStrings = textExtractor.extract(page);
 
-            final Matcher matcher = pattern.matcher(TextExtractor.toString(textStrings));
-            textExtractor.filter(
-                    textStrings,
-                    new TextExtractor.IIntervalFilter() {
-                @Override
-                public boolean hasNext() {
-                    return matcher.find();
-                }
+                final Matcher matcher = pattern.matcher(TextExtractor.toString(textStrings));
+                textExtractor.filter(
+                        textStrings,
+                        new TextExtractor.IIntervalFilter() {
+                    @Override
+                    public boolean hasNext() {
+                        return matcher.find();
+                    }
 
-                @Override
-                public Interval next() {
-                    return new Interval(matcher.start(), matcher.end());
-                }
+                    @Override
+                    public Interval next() {
+                        return new Interval(matcher.start(), matcher.end());
+                    }
 
-                @Override
-                public void process(
-                        Interval interval,
-                        ITextString match
-                ) {
-                    List highlightQuads = new ArrayList();
-                    {
-                        Rectangle2D textBox = null;
-                        for (TextChar textChar : match.getTextChars()) {
-                            Rectangle2D textCharBox = textChar.getBox();
-                            if (textBox == null) {
-                                textBox = (Rectangle2D) textCharBox.clone();
-                            } else {
-                                if (textCharBox.getY() > textBox.getMaxY()) {
-                                    highlightQuads.add(Quad.get(textBox));
+                    @Override
+                    public void process(
+                            Interval interval,
+                            ITextString match
+                    ) {
+                        List highlightQuads = new ArrayList();
+                        {
+                            Rectangle2D textBox = null;
+                            for (TextChar textChar : match.getTextChars()) {
+                                Rectangle2D textCharBox = textChar.getBox();
+//                                System.out.println("dimensiones pagina x: "+page.getBox().getMinX());
+//                                System.out.println("dimensiones pagina y: "+page.getBox().getMinY());
+//                                System.out.println("dimensiones pagina w: "+page.getBox().getWidth());
+//                                System.out.println("dimensiones pagina h: "+page.getBox().getHeight());
+                                
+                                if (textBox == null) {
                                     textBox = (Rectangle2D) textCharBox.clone();
                                 } else {
-                                    textBox.add(textCharBox);
+                                    if (textCharBox.getY() > textBox.getMaxY()) {
+                                        highlightQuads.add(Quad.get(textBox));
+                                        textBox = (Rectangle2D) textCharBox.clone();
+                                    } else {
+                                        textBox.add(textCharBox);
+                                    }
                                 }
                             }
+//                            System.out.println("dimension textbox x: "+textBox.getX());
+//                            System.out.println("dimension textbox y: "+textBox.getY());
+//                            System.out.println("dimension textbox w: "+textBox.getWidth());
+//                            System.out.println("dimension textbox h: "+textBox.getHeight());
+                            if(textBox.getY() < page.getBox().getMinY())
+                            {
+                            	textBox.setRect(textBox.getX(), ((textBox.getMaxY() * -1) + 192), textBox.getWidth(), textBox.getHeight());
+                            }
+                            highlightQuads.add(Quad.get(textBox));
                         }
-                        highlightQuads.add(Quad.get(textBox));
+                        new TextMarkup(page, null, MarkupTypeEnum.Highlight, highlightQuads);
+                        generarRutaAlternaYPaginaDocumento(documento, pag);
                     }
-                    new TextMarkup(page, null, MarkupTypeEnum.Highlight, highlightQuads);
-                    generarRutaAlternaYPaginaDocumento(documento, pag);
-                }
 
-                @Override
-                public void remove() {
-                    throw new UnsupportedOperationException();
+                    @Override
+                    public void remove() {
+                        throw new UnsupportedOperationException();
+                    }
                 }
-            }
-            );
+                );
+			} catch (Exception e) {
+//				e.printStackTrace();
+			}
+        	
             pagina++;
         }
 
         if(documento.getExistePalabra())
         	file.save(Util.obtenerRutaDocumentos() +"temp_"+ documento.getRutaDoc(),SerializationModeEnum.Incremental);
-        System.err.println("fin");
+//        System.err.println("fin");
 		
 //		return existePalabra;
 	}
